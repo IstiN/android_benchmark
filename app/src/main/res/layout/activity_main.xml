@@ -1,0 +1,57 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.epam.android.benchmark.MainActivity">
+
+    <Button
+        android:id="@+id/fullTestBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Full test"
+        android:onClick="onFullTestClick" />
+
+    <LinearLayout
+        android:id="@+id/buttons"
+        android:layout_below="@id/fullTestBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:text="Process"
+            android:textSize="10sp"
+            android:layout_weight="1"
+            android:onClick="onProcessClick" />
+        <Button
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:text="Get"
+            android:layout_weight="1"
+            android:onClick="onGetCachedEntitiesClick" />
+        <Button
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:text="With Filter"
+            android:layout_weight="1"
+            android:onClick="onGetCachedEntitiesWithFilterClick" />
+        <Button
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:text="Delete"
+            android:layout_weight="1"
+            android:onClick="onDeleteClick" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_below="@id/buttons"
+        android:id="@+id/log_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</RelativeLayout>
