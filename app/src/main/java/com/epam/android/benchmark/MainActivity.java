@@ -9,13 +9,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.epam.benchmark.IEntity;
+import com.epam.benchmark.IMember;
+
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
-
+    //public static final String SOURCE_10000 = "source.json";
+    public static final String SOURCE_1000 = "source_1000.json";
     public static final String SOURCE_100 = "source_100.json";
+
     private TextView mLogView;
 
     private IMember mMember;
@@ -28,16 +34,17 @@ public class MainActivity extends AppCompatActivity {
         mMember = BenchmarkApplication.get(this, BenchmarkApplication.MEMBER_SYSTEM_KEY);
         mMember.onActivityCreate(this);
         Long memberCreationTime = BenchmarkApplication.get(this, BenchmarkApplication.MEMBER_CREATION_TIME);
+        mLogView.setText(mMember.getName());
         log("member_creation_time", memberCreationTime);
     }
 
     private void log(final String message, final Long value) {
         runOnUiThread(new Runnable() {
-                  @Override
-                  public void run() {
-                      mLogView.setText(mLogView.getText() + "\n" + message + ": " + value);
-                  }
-            }
+                          @Override
+                          public void run() {
+                              mLogView.setText(mLogView.getText() + "\n" + message + ": " + value);
+                          }
+                      }
         );
     }
 
@@ -83,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
             mMember.process(getApplication(), inputStream);
         } catch (IOException e) {
             throw new IllegalArgumentException("check asset name");
+        } catch (Exception e) {
+            throw new IllegalStateException("your code is crashed", e);
         }
     }
 
@@ -98,7 +107,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getCachedEntities() {
-        mMember.getCachedEntities(getApplication());
+        List<IEntity> cachedEntities = mMember.getCachedEntities(getApplication());
+        int size = cachedEntities.size();
+        for (int i = 0; i < size; i++) {
+            cachedEntities.get(i).print();
+        }
+        mMember.finishWorkWithCachedEntities(cachedEntities);
     }
 
     public void onGetCachedEntitiesWithFilterClick(View view) {
@@ -114,7 +128,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void getCachedEntitiesWithFilter() {
         //filter params will be provided in future
-        mMember.getCachedEntitiesWithFilter(getApplication(), null, null, null, null);
+        // 100
+        List<IEntity> cachedEntitiesWithFilter = mMember.getCachedEntitiesWithFilter(getApplication(), true, "Arlene Gibbs", 30, 40);
+        // 1000
+        //List<IEntity> cachedEntitiesWithFilter = mMember.getCachedEntitiesWithFilter(getApplication(), true, "Amy Adams", 700, 800);
+        // 10000
+        //List<IEntity> cachedEntitiesWithFilter = mMember.getCachedEntitiesWithFilter(getApplication(), false, "Evans Lowery", 3800, 4000);
+        int size = cachedEntitiesWithFilter.size();
+        for (int i = 0; i < size; i++) {
+            cachedEntitiesWithFilter.get(i).print();
+        }
+        mMember.finishWorkWithCachedEntities(cachedEntitiesWithFilter);
     }
 
     public void onDeleteClick(View view) {

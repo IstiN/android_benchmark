@@ -3,6 +3,8 @@ package com.epam.android.benchmark;
 import android.app.Application;
 import android.content.Context;
 
+import com.epam.benchmark.IMember;
+
 /**
  * Created by uladzimir_klyshevich on 7/17/15.
  */
@@ -38,6 +40,10 @@ public class BenchmarkApplication extends Application {
             return mMember;
         } else if (MEMBER_CREATION_TIME.equals(name)) {
             return mMemberApplicationOnCreateTime;
+        }
+        Object systemService = mMember.getSystemService(name);
+        if (systemService != null) {
+            return systemService;
         }
         return super.getSystemService(name);
     }

@@ -1,4 +1,4 @@
-package com.epam.android.benchmark;
+package com.epam.benchmark;
 
 /**
  * Created by uladzimir_klyshevich on 7/17/15.
@@ -36,4 +36,9 @@ public interface IEntity {
      * @return joined tags, example "tag1, tag2, tag3"
      */
     String getTags();
+
+    /**
+     * Print full entity info
+     */
+    void print();
 }
