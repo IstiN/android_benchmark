@@ -67,10 +67,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onProcessClick(View view) {
-        final long now = System.currentTimeMillis();
         AsyncTask.SERIAL_EXECUTOR.execute(new Runnable() {
             @Override
             public void run() {
+                final long now = System.currentTimeMillis();
                 process();
                 log("onProcessClick", System.currentTimeMillis() - now);
             }
@@ -87,10 +87,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onGetCachedEntitiesClick(View view) {
-        final long now = System.currentTimeMillis();
         AsyncTask.SERIAL_EXECUTOR.execute(new Runnable() {
             @Override
             public void run() {
+                final long now = System.currentTimeMillis();
                 getCachedEntities();
                 log("onGetCachedEntitiesClick", System.currentTimeMillis() - now);
             }
@@ -102,10 +102,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onGetCachedEntitiesWithFilterClick(View view) {
-        final long now = System.currentTimeMillis();
         AsyncTask.SERIAL_EXECUTOR.execute(new Runnable() {
             @Override
             public void run() {
+                final long now = System.currentTimeMillis();
                 getCachedEntitiesWithFilter();
                 log("onGetCachedEntitiesWithFilterClick", System.currentTimeMillis() - now);
             }
@@ -118,10 +118,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onDeleteClick(View view) {
-        final long now = System.currentTimeMillis();
         AsyncTask.SERIAL_EXECUTOR.execute(new Runnable() {
             @Override
             public void run() {
+                final long now = System.currentTimeMillis();
                 delete();
                 log("onDeleteClick", System.currentTimeMillis() - now);
             }
@@ -133,10 +133,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onFullTestClick(View view) {
-        final long now = System.currentTimeMillis();
         AsyncTask.SERIAL_EXECUTOR.execute(new Runnable() {
             @Override
             public void run() {
+                final long now = System.currentTimeMillis();
                 process();
                 getCachedEntities();
                 getCachedEntitiesWithFilter();
