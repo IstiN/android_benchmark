@@ -1,4 +1,4 @@
-package com.epam.android.benchmark;
+package com.epam.benchmark;
 
 import android.app.Activity;
 import android.app.Application;
@@ -28,6 +28,12 @@ public interface IMember {
     void onApplicationCreate(Application application);
 
     /**
+     * Delegate state of application
+     * @param name of service
+     */
+    Object getSystemService(String name);
+
+    /**
      * Delegate state of activity
      * @param activity
      */
@@ -44,7 +50,7 @@ public interface IMember {
      * @param context context to make request to db, cache or something else
      * @param inputStream stream of source file
      */
-    void process(Context context, InputStream inputStream);
+    void process(Context context, InputStream inputStream) throws Exception;
 
     List<IEntity> getCachedEntities(Context context);
 
@@ -64,6 +70,12 @@ public interface IMember {
      * @param context context to make request to db, cache or something else
      */
     void delete(Context context);
+
+    /**
+     * Clear resources if needed
+     * @param cachedEntities
+     */
+    void finishWorkWithCachedEntities(List<IEntity> cachedEntities);
 
 
     class Impl {
@@ -85,6 +97,11 @@ public interface IMember {
                 public void onApplicationCreate(Application application) {
                     //create your singletones
                     Log.d(TAG, "member_created");
+                }
+
+                @Override
+                public Object getSystemService(String name) {
+                    return null;
                 }
 
                 @Override
@@ -126,6 +143,11 @@ public interface IMember {
                 @Override
                 public void delete(Context context) {
                     Log.d(TAG, "member_delete");
+                }
+
+                @Override
+                public void finishWorkWithCachedEntities(List<IEntity> cachedEntities) {
+                    //cleared
                 }
             };
         }
