@@ -18,9 +18,9 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
-    //public static final String SOURCE_10000 = "source.json";
-    public static final String SOURCE_1000 = "source_1000.json";
-    public static final String SOURCE_100 = "source_100.json";
+    public static final String SOURCE_100 = "source.json";
+    //public static final String SOURCE_1000 = "source_1000.json";
+    //public static final String SOURCE_100 = "source_100.json";
 
     private TextView mLogView;
 
