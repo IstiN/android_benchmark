@@ -16,11 +16,10 @@ import by.istin.android.xcore.XCoreHelper;
 import by.istin.android.xcore.benchmark.assist.EntityCursorModel;
 import by.istin.android.xcore.benchmark.assist.ResultWrapper;
 import by.istin.android.xcore.benchmark.db.SourceEntity;
-import by.istin.android.xcore.benchmark.gson.Response;
 import by.istin.android.xcore.benchmark.processor.SourceProcessor;
+import by.istin.android.xcore.processor.IProcessor;
 import by.istin.android.xcore.provider.IDBContentProviderSupport;
 import by.istin.android.xcore.utils.AppUtils;
-import by.istin.android.xcore.utils.Log;
 
 /**
  * Created by uladzimir_klyshevich on 7/18/15.
@@ -69,9 +68,8 @@ public class XcoreMember implements IMember {
 
     @Override
     public void process(Context context, InputStream inputStream) throws Exception {
-        SourceProcessor sourceProcessor = AppUtils.get(context, SourceProcessor.APP_SERVICE_KEY);
-        Response execute = sourceProcessor.execute(null, null, inputStream);
-        Log.xd(this, execute);
+        IProcessor sourceProcessor = AppUtils.get(context, SourceProcessor.APP_SERVICE_KEY);
+        sourceProcessor.execute(null, null, inputStream);
     }
 
     @Override

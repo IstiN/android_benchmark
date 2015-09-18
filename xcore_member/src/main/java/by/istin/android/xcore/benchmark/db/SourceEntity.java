@@ -9,6 +9,7 @@ import by.istin.android.xcore.annotations.Config;
 import by.istin.android.xcore.annotations.db;
 import by.istin.android.xcore.annotations.dbBoolean;
 import by.istin.android.xcore.annotations.dbDouble;
+import by.istin.android.xcore.annotations.dbEntity;
 import by.istin.android.xcore.annotations.dbInteger;
 import by.istin.android.xcore.annotations.dbString;
 import by.istin.android.xcore.benchmark.transformer.DateTransformer;
