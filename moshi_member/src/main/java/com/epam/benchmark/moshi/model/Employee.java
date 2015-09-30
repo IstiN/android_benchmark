@@ -1,4 +1,4 @@
-package com.epam.benchmark.model;
+package com.epam.benchmark.moshi.model;
 
 /**
  * @author Egor Makovsky

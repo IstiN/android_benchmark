@@ -1,4 +1,4 @@
-package com.epam.benchmark.model;
+package com.epam.benchmark.moshi.model;
 
 import android.text.TextUtils;
 import android.util.Log;

@@ -18,9 +18,11 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
-    //public static final String SOURCE_10000 = "source.json";
+    public static final String SOURCE_10000 = "source.json";
     public static final String SOURCE_1000 = "source_1000.json";
     public static final String SOURCE_100 = "source_100.json";
+
+    public static final String SOURCE = SOURCE_10000;
 
     private TextView mLogView;
 
@@ -86,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void process() {
         try {
-            InputStream inputStream = getAssets().open(SOURCE_100);
+            InputStream inputStream = getAssets().open(SOURCE);
             mMember.process(getApplication(), inputStream);
         } catch (IOException e) {
             throw new IllegalArgumentException("check asset name", e);

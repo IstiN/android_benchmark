@@ -1,1 +1,5 @@
-include ':app', 'module_android_xcore:xcore-library:xcore', ':xcore_member', ':benchmark'
+include ':app', 'module_android_xcore:xcore-library:xcore',
+        ':benchmark',
+        ':xcore_member',
+        ':jackson_member',
+        ':moshi_member'

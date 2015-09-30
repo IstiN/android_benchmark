@@ -1,28 +1,30 @@
-package com.epam.benchmark;
+package com.epam.benchmark.moshi;
 
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 
-import com.epam.benchmark.model.FullObject;
-
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.ObjectMapper;
+import com.epam.benchmark.IEntity;
+import com.epam.benchmark.IMember;
+import com.epam.benchmark.moshi.model.FullObject;
+import com.squareup.moshi.Moshi;
 
 import java.io.InputStream;
 import java.util.List;
 
+import okio.Okio;
+
 /**
  * @author Egor Makovsky
  */
-public class JacksonMember implements IMember {
-    private ObjectMapper mapper;
+public class MoshiMember implements IMember {
+    private Moshi moshi;
 
     private FullObject fullObject;
 
     @Override
     public String getName() {
-        return "Jackson parser";
+        return "Moshi parser";
     }
 
     @Override
@@ -37,8 +39,7 @@ public class JacksonMember implements IMember {
 
     @Override
     public void onActivityCreate(Activity activity) {
-        mapper = new ObjectMapper();
-        mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        moshi = new Moshi.Builder().build();
     }
 
     @Override
@@ -46,9 +47,10 @@ public class JacksonMember implements IMember {
 
     }
 
+
     @Override
     public void process(Context context, InputStream inputStream) throws Exception {
-        fullObject = mapper.readValue(inputStream, FullObject.class);
+        fullObject = moshi.adapter(FullObject.class).fromJson(Okio.buffer(Okio.source(inputStream)));
     }
 
     @Override

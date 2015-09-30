@@ -1,4 +1,4 @@
-package com.epam.benchmark.model;
+package com.epam.benchmark.moshi.model;
 
 import com.epam.benchmark.IEntity;
 
