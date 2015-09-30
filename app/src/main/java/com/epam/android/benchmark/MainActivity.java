@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
             InputStream inputStream = getAssets().open(SOURCE_100);
             mMember.process(getApplication(), inputStream);
         } catch (IOException e) {
-            throw new IllegalArgumentException("check asset name");
+            throw new IllegalArgumentException("check asset name", e);
         } catch (Exception e) {
             throw new IllegalStateException("your code is crashed", e);
         }
