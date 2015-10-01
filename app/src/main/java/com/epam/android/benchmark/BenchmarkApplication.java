@@ -26,7 +26,7 @@ public class BenchmarkApplication extends Application {
 
     private void createMember() {
         long now = System.currentTimeMillis();
-        mMember = MemberFactory.getInstance(1);
+        mMember = MemberFactory.getInstance(5);
         mMember.onApplicationCreate(this);
         mMemberApplicationOnCreateTime = System.currentTimeMillis() - now;
     }

@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.dd.realmbrowser.RealmFilesActivity;
 import com.epam.benchmark.IEntity;
 import com.epam.benchmark.IMember;
 
@@ -22,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String SOURCE_1000 = "source_1000.json";
     public static final String SOURCE_100 = "source_100.json";
 
-    public static final String SOURCE = SOURCE_10000;
+    public static final String SOURCE = SOURCE_100;
 
     private TextView mLogView;
 
@@ -71,6 +72,9 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra(android.content.Intent.EXTRA_TEXT, mLogView.getText());
             startActivity(intent);
             return true;
+        } else if (id == R.id.action_realm_file) {
+            Intent intent = new Intent(this, RealmFilesActivity.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

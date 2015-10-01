@@ -4,4 +4,6 @@
     tools:context="com.epam.android.benchmark.MainActivity">
     <item android:id="@+id/action_share" android:title="@string/action_share"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_realm_file" android:title="@string/real_file"
+        android:orderInCategory="100" app:showAsAction="never" />
 </menu>

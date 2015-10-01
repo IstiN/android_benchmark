@@ -78,7 +78,20 @@ public class ResponseItem implements IEntity {
 
     @Override
     public void print() {
-        Log.d("test", "id: " + getId() + ", name: " + getEmployeeName());
+        Log.d("Jackson", TextUtils.join(
+            "|", new Object[]{
+                getId(),
+                getIndex(),
+                isActive(),
+                getPicture(),
+                getEmployeeName(),
+                getEmployeeCompany(),
+                getEmployeeEmail(),
+                getEmployeeAbout(),
+                getEmployeeRegisteredFormatted(),
+                getLatitude(),
+                getLongitude(),
+                getTags()}));
     }
 
     public void setId(String id) {

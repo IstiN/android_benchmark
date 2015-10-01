@@ -1,4 +1,6 @@
-include ':app', 'module_android_xcore:xcore-library:xcore',
+include ':app',
+        ':realm.io',
+        'module_android_xcore:xcore-library:xcore',
         ':benchmark',
         ':xcore_member',
         ':jackson_member',
