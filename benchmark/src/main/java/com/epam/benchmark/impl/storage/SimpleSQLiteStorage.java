@@ -1,4 +1,4 @@
-package com.epam.benchmark.impl;
+package com.epam.benchmark.impl.storage;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -12,7 +12,7 @@ import com.epam.benchmark.IEntity;
 import com.epam.benchmark.IStorage;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -60,8 +60,41 @@ public class SimpleSQLiteStorage implements IStorage {
 
     @Override
     public List<IEntity> getEntities(Context context) {
-        Cursor cursor = sqLiteHelper.getReadableDatabase().rawQuery("select * from Entities", null);
+        return cursorToEntities(sqLiteHelper.getReadableDatabase().rawQuery("select * from Entities", null));
+    }
 
+    @Override
+    public List<IEntity> getEntities(Context context, Boolean isActive, String employeeName, Integer startIndex, Integer endIndex) {
+        List<String> whereArgs = new LinkedList<>();
+        if (isActive != null) {
+            whereArgs.add("isActive=" + (isActive ? 1 : 0));
+        }
+        if (employeeName != null) {
+            whereArgs.add("employeeName=\"" + employeeName + "\"");
+        }
+        if (startIndex != null) {
+            whereArgs.add("index_>=" + startIndex);
+        }
+        if (endIndex != null) {
+            whereArgs.add("index_<=" + endIndex);
+        }
+
+        String where = whereArgs.isEmpty() ? "" : " where " + TextUtils.join(" AND ", whereArgs);
+
+        return cursorToEntities(sqLiteHelper.getReadableDatabase().rawQuery("select * from Entities" + where, null));
+    }
+
+    @Override
+    public void clear(Context context) {
+        sqLiteHelper.getWritableDatabase().execSQL("delete from Entities");
+    }
+
+    @Override
+    public void clearResources() {
+        sqLiteHelper.close();
+    }
+
+    private List<IEntity> cursorToEntities(Cursor cursor) {
         List<IEntity> entities = new ArrayList<>();
 
         if (cursor.moveToFirst()) {
@@ -87,22 +120,7 @@ public class SimpleSQLiteStorage implements IStorage {
         return entities;
     }
 
-    @Override
-    public List<IEntity> getEntities(Context context, Boolean isActive, String employeeName, Integer startIndex, Integer endIndex) {
-        return Collections.emptyList();// TODO: 10/1/2015 implement filter
-    }
-
-    @Override
-    public void clear(Context context) {
-        sqLiteHelper.getWritableDatabase().execSQL("delete from Entities");
-    }
-
-    @Override
-    public void clearResources() {
-        sqLiteHelper.close();
-    }
-
-    public class MySQLiteHelper extends SQLiteOpenHelper {
+    private class MySQLiteHelper extends SQLiteOpenHelper {
         private static final int DATABASE_VERSION = 2;
         private static final String DATABASE_NAME = "SimpleSQLiteStorage";
 
