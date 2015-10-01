@@ -7,6 +7,7 @@ import com.epam.benchmark.impl.storage.SimpleSQLiteStorage;
 import com.epam.benchmark.impl.storage.StubStorage;
 import com.epam.benchmark.jackson.JacksonParser;
 import com.epam.benchmark.moshi.MoshiParser;
+import com.epam.ormlite.ORMLite;
 import com.epam.realmio.RealmIo;
 
 import by.istin.android.xcore.benchmark.XcoreMember;
@@ -38,6 +39,10 @@ public class MemberFactory {
                 return new ParserStorageMember(new JacksonParser(), new StubStorage());
             case 9:
                 return new ParserStorageMember(new MoshiParser(), new StubStorage());
+            case 10:
+                return new ParserStorageMember(new JacksonParser(), new ORMLite());
+            case 11:
+                return new ParserStorageMember(new MoshiParser(), new ORMLite());
             default:
                 return IMember.Impl.get();
         }
