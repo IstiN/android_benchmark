@@ -77,7 +77,7 @@ public class ModelWrapper implements IEntity {
 
     @Override
     public void print() {
-        Log.d("Moshi", TextUtils.join(
+        Log.d("Realm.io", TextUtils.join(
                 "|", new Object[]{
                         getId(),
                         getIndex(),
