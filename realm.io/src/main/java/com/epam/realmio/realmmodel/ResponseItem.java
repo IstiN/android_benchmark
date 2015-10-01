@@ -1,11 +1,18 @@
-package com.epam.realmio.rmodel;
+package com.epam.realmio.realmmodel;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * @author Egor Makovsky
  */
-public class Employee extends RealmObject {
+public class ResponseItem extends RealmObject {
+
+    private String id;
+    @PrimaryKey
+    private int index;
+    private boolean isActive;
+    private String picture;
     private String name;
     private String company;
     private String email;
@@ -69,4 +76,37 @@ public class Employee extends RealmObject {
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
 }
