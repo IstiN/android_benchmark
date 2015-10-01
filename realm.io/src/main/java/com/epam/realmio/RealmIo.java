@@ -6,8 +6,6 @@ import android.support.annotation.NonNull;
 import com.dd.realmbrowser.RealmBrowser;
 import com.epam.benchmark.IEntity;
 import com.epam.benchmark.IStorage;
-import com.epam.realmio.benchmodel.Model;
-import com.epam.realmio.realmmodel.ResponseItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +20,7 @@ import io.realm.RealmResults;
 public class RealmIo implements IStorage {
 
     static {
-        RealmBrowser.getInstance().addRealmModel(ResponseItem.class);
+        RealmBrowser.getInstance().addRealmModel(Model.class);
     }
 
     @Override
@@ -36,17 +34,17 @@ public class RealmIo implements IStorage {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                List<ResponseItem> items = convert(entities);
+                List<Model> items = convert(entities);
                 realm.copyToRealmOrUpdate(items);
             }
         });
     }
 
     @NonNull
-    private List<ResponseItem> convert(List<IEntity> entities) {
-        List<ResponseItem> items = new ArrayList<>(entities.size());
+    private List<Model> convert(List<IEntity> entities) {
+        List<Model> items = new ArrayList<>(entities.size());
         for (IEntity entity : entities) {
-            ResponseItem item = new ResponseItem();
+            Model item = new Model();
             item.setId(entity.getId());
             item.setIndex(entity.getIndex());
             item.setIsActive(entity.isActive());
@@ -65,14 +63,14 @@ public class RealmIo implements IStorage {
 
     @Override
     public List<IEntity> getEntities(Context context) {
-        RealmResults<ResponseItem> all = getRealm(context).where(ResponseItem.class).findAll();
+        RealmResults<Model> all = getRealm(context).where(Model.class).findAll();
         return convert(all);
     }
 
-    private List<IEntity> convert(RealmResults<ResponseItem> items) {
+    private List<IEntity> convert(RealmResults<Model> items) {
         List<IEntity> list = new ArrayList<>(items.size());
-        for (ResponseItem item : items) {
-            list.add(new Model(item));
+        for (Model item : items) {
+            list.add(new ModelWrapper(item));
         }
 
         return list;
@@ -80,7 +78,7 @@ public class RealmIo implements IStorage {
 
     @Override
     public List<IEntity> getEntities(Context context, Boolean isActive, String employeeName, Integer startIndex, Integer endIndex) {
-        RealmQuery<ResponseItem> query = getRealm(context).where(ResponseItem.class);
+        RealmQuery<Model> query = getRealm(context).where(Model.class);
 
         if (isActive != null) {
             query.equalTo("isActive", isActive);
@@ -102,7 +100,7 @@ public class RealmIo implements IStorage {
         getRealm(context).executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                realm.clear(ResponseItem.class);
+                realm.clear(Model.class);
             }
         });
     }

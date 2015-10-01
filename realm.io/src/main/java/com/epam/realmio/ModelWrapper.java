@@ -1,18 +1,17 @@
-package com.epam.realmio.benchmodel;
+package com.epam.realmio;
 
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.epam.benchmark.IEntity;
-import com.epam.realmio.realmmodel.ResponseItem;
 
 /**
  * Created by shulha_dmytro on 1.10.15.
  */
-public class Model implements IEntity {
-    private ResponseItem item;
+public class ModelWrapper implements IEntity {
+    private Model item;
 
-    public Model(ResponseItem item) {
+    public ModelWrapper(Model item) {
         this.item = item;
     }
 

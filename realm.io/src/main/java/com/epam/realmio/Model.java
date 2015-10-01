@@ -1,4 +1,4 @@
-package com.epam.realmio.realmmodel;
+package com.epam.realmio;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -6,10 +6,10 @@ import io.realm.annotations.PrimaryKey;
 /**
  * @author Egor Makovsky
  */
-public class ResponseItem extends RealmObject {
+public class Model extends RealmObject {
 
-    private String id;
     @PrimaryKey
+    private String id;
     private int index;
     private boolean isActive;
     private String picture;
