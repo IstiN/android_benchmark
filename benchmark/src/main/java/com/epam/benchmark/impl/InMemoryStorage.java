@@ -1,11 +1,15 @@
-package com.epam.benchmark;
+package com.epam.benchmark.impl;
 
 import android.content.Context;
+
+import com.epam.benchmark.IEntity;
+import com.epam.benchmark.IStorage;
 
 import java.util.Collections;
 import java.util.List;
 
 /**
+ * // TODO: 10/1/2015 move to separate library
  * @author Egor Makovsky
  */
 public class InMemoryStorage implements IStorage {
@@ -13,7 +17,7 @@ public class InMemoryStorage implements IStorage {
     private List<IEntity> entities;
 
     @Override
-    public void init() {
+    public void init(Context context) {
         entities = Collections.emptyList();
     }
 

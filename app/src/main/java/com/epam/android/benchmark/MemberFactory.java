@@ -1,8 +1,9 @@
 package com.epam.android.benchmark;
 
 import com.epam.benchmark.IMember;
-import com.epam.benchmark.InMemoryStorage;
+import com.epam.benchmark.impl.InMemoryStorage;
 import com.epam.benchmark.impl.ParserStorageMember;
+import com.epam.benchmark.impl.SimpleSQLiteStorage;
 import com.epam.benchmark.jackson.JacksonParser;
 import com.epam.benchmark.moshi.MoshiParser;
 
@@ -21,6 +22,8 @@ public class MemberFactory {
                 return new ParserStorageMember(new MoshiParser(), new InMemoryStorage());
             case 2:
                 return new ParserStorageMember(new JacksonParser(), new InMemoryStorage());
+            case 3:
+                return new ParserStorageMember(new JacksonParser(), new SimpleSQLiteStorage());
 
             default:
                 return IMember.Impl.get();

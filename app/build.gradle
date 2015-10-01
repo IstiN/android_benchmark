@@ -31,4 +31,6 @@ dependencies {
     compile project(':jackson_member')
     compile project(':moshi_member')
     compile 'com.android.support:appcompat-v7:23.0.1'
+
+    debugCompile 'im.dino:dbinspector:3.1.0@aar'
 }

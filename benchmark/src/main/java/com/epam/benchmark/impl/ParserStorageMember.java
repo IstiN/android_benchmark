@@ -43,7 +43,7 @@ public class ParserStorageMember implements IMember {
     @Override
     public void onActivityCreate(Activity activity) {
         parser.init();
-        storage.init();
+        storage.init(activity);
     }
 
     @Override
