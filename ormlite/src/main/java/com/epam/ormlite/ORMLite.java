@@ -23,6 +23,7 @@ public class ORMLite implements IStorage {
 
     public static final int VERSION = 1;
     public static final String DATABASE_NAME = "orm_lite";
+    private static final String TAG = "ORMLite";
 
     private Dao<Model, String> dao;
 
@@ -32,7 +33,7 @@ public class ORMLite implements IStorage {
         try {
             dao = ormLiteHelper.getDao(Model.class);
         } catch (SQLException e) {
-            e.printStackTrace();
+            Log.e(TAG, e.getMessage(), e);
         }
     }
 
@@ -42,7 +43,7 @@ public class ORMLite implements IStorage {
             try {
                 dao.createOrUpdate(new Model(entity));
             } catch (SQLException e) {
-                e.printStackTrace();
+                Log.e(TAG, e.getMessage(), e);
             }
         }
     }
@@ -53,9 +54,9 @@ public class ORMLite implements IStorage {
             List<Model> models = dao.queryForAll();
             return convert(models);
         } catch (SQLException e) {
-            e.printStackTrace();
+            Log.e(TAG, e.getMessage(), e);
+            return new ArrayList<>();
         }
-        return new ArrayList<>();
     }
 
     private List<IEntity> convert(List<Model> models) {
@@ -67,44 +68,24 @@ public class ORMLite implements IStorage {
     @Override
     public List<IEntity> getEntities(Context context, Boolean isActive, String employeeName, Integer startIndex, Integer endIndex) {
         Where<Model, String> where = dao.queryBuilder().where();
-
-        if (isActive != null) {
-            try {
+        try {
+            if (isActive != null) {
                 where.eq("isActive", isActive).and();
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
-        }
 
-        if (employeeName != null) {
-            try {
+            if (employeeName != null) {
                 where.eq("name", employeeName).and();
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
-        }
 
-        if (startIndex != null && endIndex != null) {
-            try {
+            if (startIndex != null && endIndex != null) {
                 where.between("index", startIndex, endIndex).and();
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
-        }
 
-        try {
-            where.isNotNull("index").and();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        try {
             return convert(where.query());
         } catch (SQLException e) {
-            e.printStackTrace();
+            Log.e(TAG, e.getMessage(), e);
+            return new ArrayList<>();
         }
-
-        return new ArrayList<>();
     }
 
     @Override
@@ -112,7 +93,7 @@ public class ORMLite implements IStorage {
         try {
             dao.delete(dao.queryForAll());
         } catch (SQLException e) {
-            e.printStackTrace();
+            Log.e(TAG, e.getMessage(), e);
         }
     }
 
@@ -132,7 +113,7 @@ public class ORMLite implements IStorage {
             try {
                 TableUtils.createTable(connectionSource, Model.class);
             } catch (Exception e) {
-                Log.e("ORMLite", "Can't create database", e);
+                Log.e(TAG, "Can't create database", e);
                 throw new RuntimeException(e);
             }
         }
