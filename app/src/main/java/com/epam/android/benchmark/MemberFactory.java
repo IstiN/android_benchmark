@@ -1,9 +1,10 @@
 package com.epam.android.benchmark;
 
 import com.epam.benchmark.IMember;
-import com.epam.benchmark.impl.InMemoryStorage;
 import com.epam.benchmark.impl.ParserStorageMember;
-import com.epam.benchmark.impl.SimpleSQLiteStorage;
+import com.epam.benchmark.impl.storage.InMemoryStorage;
+import com.epam.benchmark.impl.storage.SimpleSQLiteStorage;
+import com.epam.benchmark.impl.storage.StubStorage;
 import com.epam.benchmark.jackson.JacksonParser;
 import com.epam.benchmark.moshi.MoshiParser;
 import com.epam.realmio.RealmIo;
@@ -24,12 +25,19 @@ public class MemberFactory {
             case 2:
                 return new ParserStorageMember(new JacksonParser(), new InMemoryStorage());
             case 3:
-                return new ParserStorageMember(new JacksonParser(), new SimpleSQLiteStorage());
+                return new ParserStorageMember(new MoshiParser(), new InMemoryStorage());
             case 4:
-                return new ParserStorageMember(new JacksonParser(), new RealmIo());
+                return new ParserStorageMember(new JacksonParser(), new InMemoryStorage());
             case 5:
+                return new ParserStorageMember(new JacksonParser(), new SimpleSQLiteStorage());
+            case 6:
+                return new ParserStorageMember(new JacksonParser(), new RealmIo());
+            case 7:
                 return new ParserStorageMember(new MoshiParser(), new RealmIo());
-
+            case 8:
+                return new ParserStorageMember(new JacksonParser(), new StubStorage());
+            case 9:
+                return new ParserStorageMember(new MoshiParser(), new StubStorage());
             default:
                 return IMember.Impl.get();
         }

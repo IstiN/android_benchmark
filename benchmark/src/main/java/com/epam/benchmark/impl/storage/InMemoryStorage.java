@@ -1,4 +1,4 @@
-package com.epam.benchmark.impl;
+package com.epam.benchmark.impl.storage;
 
 import android.content.Context;
 
@@ -6,10 +6,12 @@ import com.epam.benchmark.IEntity;
 import com.epam.benchmark.IStorage;
 
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
  * // TODO: 10/1/2015 move to separate library
+ *
  * @author Egor Makovsky
  */
 public class InMemoryStorage implements IStorage {
@@ -33,7 +35,19 @@ public class InMemoryStorage implements IStorage {
 
     @Override
     public List<IEntity> getEntities(Context context, Boolean isActive, String employeeName, Integer startIndex, Integer endIndex) {
-        return entities;// TODO: 10/1/2015  filter in memory implementation
+        List<IEntity> entities = new LinkedList<>();
+
+        for (IEntity entity : this.entities) {
+            if ((isActive == null || isActive == entity.isActive())
+                && (employeeName == null || employeeName.equals(entity.getEmployeeName()))
+                && (startIndex != null || startIndex >= entity.getIndex())
+                && (endIndex != null || endIndex <= entity.getIndex())) {
+
+                entities.add(entity);
+            }
+        }
+
+        return entities;
     }
 
     @Override
