@@ -15,6 +15,7 @@ import com.j256.ormlite.table.TableUtils;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 /**
  * Created by shulha_dmytro on 1.10.15.
@@ -38,13 +39,23 @@ public class ORMLite implements IStorage {
     }
 
     @Override
-    public void save(Context context, List<IEntity> entities) {
-        for (IEntity entity : entities) {
-            try {
-                dao.createOrUpdate(new Model(entity));
-            } catch (SQLException e) {
-                Log.e(TAG, e.getMessage(), e);
-            }
+    public void save(Context context, final List<IEntity> entities) {
+        try {
+            dao.callBatchTasks(new Callable<Void>() {
+                @Override
+                public Void call() throws Exception {
+                    for (IEntity entity : entities) {
+                        try {
+                            dao.create(new Model(entity));
+                        } catch (SQLException e) {
+                            Log.e(TAG, e.getMessage(), e);
+                        }
+                    }
+                    return null;
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

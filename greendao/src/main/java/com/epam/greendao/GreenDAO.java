@@ -34,9 +34,8 @@ public class GreenDAO implements IStorage {
 
     @Override
     public void save(Context context, List<IEntity> entities) {
-        SQLiteDatabase db = dao.getDatabase();
+        /*SQLiteDatabase db = dao.getDatabase();
         db.beginTransaction();
-
         try {
             for (IEntity entity : entities) {
                 dao.insertOrReplace(new Model(entity));
@@ -45,7 +44,14 @@ public class GreenDAO implements IStorage {
         } catch (Exception ignored) {
         } finally {
             db.endTransaction();
+        }*/
+        Model[] models = new Model[entities.size()];
+        for (int i = 0; i < entities.size(); i++) {
+            models[i] = new Model(entities.get(i));
         }
+
+        dao.insertInTx(models);
+
     }
 
     @Override
