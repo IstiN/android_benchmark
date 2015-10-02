@@ -29,7 +29,7 @@ public class MemberFactory {
             case 3:
                 return new ParserStorageMember(new MoshiParser(), new InMemoryStorage());
             case 4:
-                return new ParserStorageMember(new JacksonParser(), new InMemoryStorage());
+                return new ParserStorageMember(new MoshiParser(), new SimpleSQLiteStorage());
             case 5:
                 return new ParserStorageMember(new JacksonParser(), new SimpleSQLiteStorage());
             case 6:

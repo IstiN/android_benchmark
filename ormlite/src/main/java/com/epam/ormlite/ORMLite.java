@@ -91,7 +91,7 @@ public class ORMLite implements IStorage {
     @Override
     public void clear(Context context) {
         try {
-            dao.delete(dao.queryForAll());
+            dao.deleteBuilder().delete();
         } catch (SQLException e) {
             Log.e(TAG, e.getMessage(), e);
         }

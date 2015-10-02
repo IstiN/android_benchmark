@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.epam.benchmark.IEntity;
+import com.epam.benchmark.Utils;
 
 /**
  * Created by shulha_dmytro on 1.10.15.
@@ -77,19 +78,6 @@ public class ModelWrapper implements IEntity {
 
     @Override
     public void print() {
-        Log.d("Realm.io", TextUtils.join(
-                "|", new Object[]{
-                        getId(),
-                        getIndex(),
-                        isActive(),
-                        getPicture(),
-                        getEmployeeName(),
-                        getEmployeeCompany(),
-                        getEmployeeEmail(),
-                        getEmployeeAbout(),
-                        getEmployeeRegisteredFormatted(),
-                        getLatitude(),
-                        getLongitude(),
-                        getTags()}));
+        Utils.print("Realm.io", this);
     }
 }

@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.epam.benchmark.IEntity;
+import com.epam.benchmark.Utils;
 
 /**
  * Entity mapped to table "MODEL".
@@ -146,20 +147,7 @@ public class Model implements IEntity{
 
     @Override
     public void print() {
-        Log.d("GreenDAO", TextUtils.join(
-                "|", new Object[]{
-                        getId(),
-                        getIndex(),
-                        isActive(),
-                        getPicture(),
-                        getEmployeeName(),
-                        getEmployeeCompany(),
-                        getEmployeeEmail(),
-                        getEmployeeAbout(),
-                        getEmployeeRegisteredFormatted(),
-                        getLatitude(),
-                        getLongitude(),
-                        getTags()}));
+        Utils.print("GreenDAO", this);
     }
 
     public void setLongitude(Double longitude) {

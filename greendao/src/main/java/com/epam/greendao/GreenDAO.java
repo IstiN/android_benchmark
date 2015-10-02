@@ -1,6 +1,7 @@
 package com.epam.greendao;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 
 import com.epam.benchmark.IEntity;
 import com.epam.benchmark.IStorage;
@@ -23,34 +24,6 @@ public class GreenDAO implements IStorage {
     public static final String GREENDAO = "greendao";
     private ModelDao dao;
 
-    public static void main(String[] args) {
-        try {
-            Schema schema = new Schema(1, "com.epam.greendao");
-            schema.enableKeepSectionsByDefault();
-            Entity entity = schema.addEntity("Model");
-
-
-            entity.addStringProperty("id").primaryKey();
-            entity.addIntProperty("index");
-            entity.addBooleanProperty("isActive");
-            entity.addStringProperty("picture");
-            entity.addStringProperty("name");
-            entity.addStringProperty("company");
-            entity.addStringProperty("email");
-            entity.addStringProperty("about");
-            entity.addStringProperty("registered");
-            entity.addDoubleProperty("latitude");
-            entity.addDoubleProperty("longitude");
-
-            new DaoGenerator().generateAll(schema, "greendao/src/main/java/");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
     @Override
     public void init(Context context) {
         DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(context, GREENDAO, null);
@@ -61,8 +34,17 @@ public class GreenDAO implements IStorage {
 
     @Override
     public void save(Context context, List<IEntity> entities) {
-        for (IEntity entity : entities) {
-            dao.insertOrReplace(new Model(entity));
+        SQLiteDatabase db = dao.getDatabase();
+        db.beginTransaction();
+
+        try {
+            for (IEntity entity : entities) {
+                dao.insertOrReplace(new Model(entity));
+            }
+            db.setTransactionSuccessful();
+        } catch (Exception ignored) {
+        } finally {
+            db.endTransaction();
         }
     }
 
