@@ -7,6 +7,7 @@ import com.epam.benchmark.impl.storage.SimpleSQLiteStorage;
 import com.epam.benchmark.impl.storage.StubStorage;
 import com.epam.benchmark.jackson.JacksonParser;
 import com.epam.benchmark.moshi.MoshiParser;
+import com.epam.greendao.GreenDAO;
 import com.epam.ormlite.ORMLite;
 import com.epam.realmio.RealmIo;
 
@@ -43,6 +44,10 @@ public class MemberFactory {
                 return new ParserStorageMember(new JacksonParser(), new ORMLite());
             case 11:
                 return new ParserStorageMember(new MoshiParser(), new ORMLite());
+            case 12:
+                return new ParserStorageMember(new MoshiParser(), new GreenDAO());
+            case 13:
+                return new ParserStorageMember(new JacksonParser(), new GreenDAO());
             default:
                 return IMember.Impl.get();
         }
