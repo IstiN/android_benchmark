@@ -1,9 +1,9 @@
 package com.epam.android.benchmark;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,7 +18,7 @@ import java.io.InputStream;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
     public static final String SOURCE_10000 = "source.json";
     public static final String SOURCE_1000 = "source_1000.json";
     public static final String SOURCE_100 = "source_100.json";
