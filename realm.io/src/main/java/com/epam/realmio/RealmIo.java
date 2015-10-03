@@ -31,10 +31,10 @@ public class RealmIo implements IStorage {
     @Override
     public void save(Context context, final List<IEntity> entities) {
         Realm realm = getRealm(context);
+        final List<Model> items = convert(entities);
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                List<Model> items = convert(entities);
                 realm.copyToRealmOrUpdate(items);
             }
         });

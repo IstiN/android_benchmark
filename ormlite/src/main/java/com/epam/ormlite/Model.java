@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.epam.benchmark.IEntity;
+import com.epam.benchmark.Utils;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -89,20 +90,7 @@ public class Model implements IEntity {
 
     @Override
     public void print() {
-        Log.d("ORMLite", TextUtils.join(
-                "|", new Object[]{
-                        getId(),
-                        getIndex(),
-                        isActive(),
-                        getPicture(),
-                        getEmployeeName(),
-                        getEmployeeCompany(),
-                        getEmployeeEmail(),
-                        getEmployeeAbout(),
-                        getEmployeeRegisteredFormatted(),
-                        getLatitude(),
-                        getLongitude(),
-                        getTags()}));
+        Utils.print("ORMLite", this);
     }
 
     public void setName(String name) {
