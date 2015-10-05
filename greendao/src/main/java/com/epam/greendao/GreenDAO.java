@@ -1,19 +1,15 @@
 package com.epam.greendao;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteConstraintException;
+import android.util.Log;
 
 import com.epam.benchmark.IEntity;
 import com.epam.benchmark.IStorage;
 
-import java.io.IOException;
 import java.util.List;
 
 import de.greenrobot.dao.query.QueryBuilder;
-import de.greenrobot.dao.query.WhereCondition;
-import de.greenrobot.daogenerator.DaoGenerator;
-import de.greenrobot.daogenerator.Entity;
-import de.greenrobot.daogenerator.Schema;
 
 
 /**
@@ -34,24 +30,16 @@ public class GreenDAO implements IStorage {
 
     @Override
     public void save(Context context, List<IEntity> entities) {
-        /*SQLiteDatabase db = dao.getDatabase();
-        db.beginTransaction();
-        try {
-            for (IEntity entity : entities) {
-                dao.insertOrReplace(new Model(entity));
-            }
-            db.setTransactionSuccessful();
-        } catch (Exception ignored) {
-        } finally {
-            db.endTransaction();
-        }*/
         Model[] models = new Model[entities.size()];
         for (int i = 0; i < entities.size(); i++) {
             models[i] = new Model(entities.get(i));
         }
 
-        dao.insertInTx(models);
-
+        try {
+            dao.insertInTx(models);
+        } catch (SQLiteConstraintException e) {
+            Log.e(GREENDAO, "Cant save entities", e);
+        }
     }
 
     @Override
@@ -88,7 +76,7 @@ public class GreenDAO implements IStorage {
     }
 
     @Override
-    public void clearResources() {
+    public void clearResources(Context context) {
 
     }
 }

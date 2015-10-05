@@ -40,8 +40,8 @@ public class InMemoryStorage implements IStorage {
         for (IEntity entity : this.entities) {
             if ((isActive == null || isActive == entity.isActive())
                 && (employeeName == null || employeeName.equals(entity.getEmployeeName()))
-                && (startIndex != null || startIndex >= entity.getIndex())
-                && (endIndex != null || endIndex <= entity.getIndex())) {
+                && (startIndex == null || startIndex <= entity.getIndex())
+                && (endIndex == null || endIndex >= entity.getIndex())) {
 
                 entities.add(entity);
             }
@@ -56,7 +56,7 @@ public class InMemoryStorage implements IStorage {
     }
 
     @Override
-    public void clearResources() {
+    public void clearResources(Context context) {
 
     }
 }

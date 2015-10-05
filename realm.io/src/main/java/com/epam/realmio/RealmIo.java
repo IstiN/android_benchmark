@@ -25,7 +25,7 @@ public class RealmIo implements IStorage {
 
     @Override
     public void init(Context context) {
-
+        getRealm(context);
     }
 
     @Override
@@ -110,7 +110,7 @@ public class RealmIo implements IStorage {
     }
 
     @Override
-    public void clearResources() {
-
+    public void clearResources(Context context) {
+        Realm.getInstance(context).close();
     }
 }

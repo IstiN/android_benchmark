@@ -90,7 +90,7 @@ public class SimpleSQLiteStorage implements IStorage {
     }
 
     @Override
-    public void clearResources() {
+    public void clearResources(Context context) {
         sqLiteHelper.close();
     }
 

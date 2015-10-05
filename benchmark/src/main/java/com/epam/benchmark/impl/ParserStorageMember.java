@@ -19,6 +19,7 @@ public class ParserStorageMember implements IMember {
 
     private IParser parser;
     private IStorage storage;
+    private Context context;
 
     public ParserStorageMember(IParser parser, IStorage storage) {
         this.parser = parser;
@@ -41,9 +42,10 @@ public class ParserStorageMember implements IMember {
     }
 
     @Override
-    public void onActivityCreate(Activity activity) {
+    public void onActivityCreate(Context context) {
+        this.context = context;
         parser.init();
-        storage.init(activity);
+        storage.init(context);
     }
 
     @Override
@@ -75,6 +77,6 @@ public class ParserStorageMember implements IMember {
 
     @Override
     public void finishWorkWithCachedEntities(List<IEntity> cachedEntities) {
-        storage.clearResources();
+        storage.clearResources(context);
     }
 }
