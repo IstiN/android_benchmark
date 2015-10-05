@@ -47,6 +47,6 @@ public class ParserBenchmark {
 
     @Test
     public void testParseMany() throws Exception {
-        parserImpl.parse(context.getAssets().open("source.json"));
+        parserImpl.parse(context.getAssets().open("source_10000.json"));
     }
 }

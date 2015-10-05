@@ -158,6 +158,9 @@ public class ResultWrapper implements List<IEntity> {
 
     @Override
     public int size() {
+        if (mCursorModel == null) {
+            return 0;
+        }
         return mCursorModel.size();
     }
 

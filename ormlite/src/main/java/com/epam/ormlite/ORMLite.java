@@ -41,7 +41,7 @@ public class ORMLite implements IStorage {
     @Override
     public void save(Context context, final List<IEntity> entities) {
         try {
-            dao.callBatchTasks(new Callable<Void>() {
+            final Callable<Void> callable = new Callable<Void>() {
                 @Override
                 public Void call() throws Exception {
                     for (IEntity entity : entities) {
@@ -53,7 +53,8 @@ public class ORMLite implements IStorage {
                     }
                     return null;
                 }
-            });
+            };
+            dao.callBatchTasks(callable);
         } catch (Exception e) {
             e.printStackTrace();
         }

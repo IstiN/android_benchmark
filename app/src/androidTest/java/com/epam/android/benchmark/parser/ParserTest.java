@@ -45,8 +45,13 @@ public class ParserTest {
     @Test
     public void testCount1000() throws Exception {
         List<IEntity> entities = parserImpl.parse(context.getAssets().open("source_1000.json"));
-
         Assert.assertEquals(1000, entities.size());
+    }
+
+    @Test
+    public void testCount10000() throws Exception {
+        List<IEntity> entities = parserImpl.parse(context.getAssets().open("source_10000.json"));
+        Assert.assertEquals(10000, entities.size());
     }
 
     @Test
