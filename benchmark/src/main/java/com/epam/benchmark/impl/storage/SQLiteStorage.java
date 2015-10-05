@@ -20,7 +20,7 @@ import java.util.List;
  *
  * @author Egor Makovsky
  */
-public class SimpleSQLiteStorage implements IStorage {
+public class SQLiteStorage implements IStorage {
 
     private MySQLiteHelper sqLiteHelper;
 

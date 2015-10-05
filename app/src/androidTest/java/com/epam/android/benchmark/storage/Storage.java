@@ -2,7 +2,7 @@ package com.epam.android.benchmark.storage;
 
 import com.epam.benchmark.IStorage;
 import com.epam.benchmark.impl.storage.InMemoryStorage;
-import com.epam.benchmark.impl.storage.SimpleSQLiteStorage;
+import com.epam.benchmark.impl.storage.SQLiteStorage;
 import com.epam.greendao.GreenDAO;
 import com.epam.ormlite.ORMLite;
 import com.epam.realmio.RealmIo;
@@ -21,7 +21,7 @@ public enum Storage {
     SIMPLE {
         @Override
         public IStorage create() {
-            return new SimpleSQLiteStorage();
+            return new SQLiteStorage();
         }
     },
 

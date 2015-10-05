@@ -45,7 +45,7 @@ public class MemberBenchmark {
 
     @Test
     public void testProcess() throws Exception {
-        InputStream inputStream = context.getAssets().open("source_100.json");
+        InputStream inputStream = context.getAssets().open("source_10000.json");
         memberImpl.process(context, inputStream);
     }
 }
