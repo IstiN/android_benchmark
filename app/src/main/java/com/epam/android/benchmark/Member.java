@@ -3,9 +3,10 @@ package com.epam.android.benchmark;
 import com.epam.benchmark.IMember;
 import com.epam.benchmark.impl.ParserStorageMember;
 import com.epam.benchmark.impl.storage.InMemoryStorage;
-import com.epam.benchmark.impl.storage.SimpleSQLiteStorage;
+import com.epam.benchmark.impl.storage.SQLiteStorage;
 import com.epam.benchmark.jackson.JacksonParser;
 import com.epam.benchmark.moshi.MoshiParser;
+import com.epam.greendao.GreenDAO;
 import com.epam.realmio.RealmIo;
 
 import by.istin.android.xcore.benchmark.XcoreMember;
@@ -28,6 +29,27 @@ public enum Member {
         }
     },
 
+    MOSHI_SIMPLE_SQLITE {
+        @Override
+        public IMember create() {
+            return new ParserStorageMember(new MoshiParser(), new SQLiteStorage());
+        }
+    },
+
+    MOSHI_REALM {
+        @Override
+        public IMember create() {
+            return new ParserStorageMember(new MoshiParser(), new RealmIo());
+        }
+    },
+
+    MOSHI_GREEN_DAO {
+        @Override
+        public IMember create() {
+            return new ParserStorageMember(new MoshiParser(), new GreenDAO());
+        }
+    },
+
     JACKSON_IN_MEMORY {
         @Override
         public IMember create() {
@@ -35,13 +57,29 @@ public enum Member {
         }
     },
 
-    MOSHI_SIMPLE_SQLITE {
+    JACKSON_SQLITE {
         @Override
         public IMember create() {
-            return new ParserStorageMember(new MoshiParser(), new SimpleSQLiteStorage());
+            return new ParserStorageMember(new JacksonParser(), new SQLiteStorage());
         }
     },
 
+    JACKSON_REALM {
+        @Override
+        public IMember create() {
+            return new ParserStorageMember(new JacksonParser(), new RealmIo());
+        }
+    },
+
+    JACKSON_GREENDAO {
+        @Override
+        public IMember create() {
+            return new ParserStorageMember(new JacksonParser(), new GreenDAO());
+        }
+    },
+
+
+;
 //    case 5:
 //        return new ParserStorageMember(new JacksonParser(), new SimpleSQLiteStorage());
 //    case 6:
@@ -61,12 +99,7 @@ public enum Member {
 //    case 13:
 //        return new ParserStorageMember(new JacksonParser(), new GreenDAO());
 
-    JACKSON_REALM {
-        @Override
-        public IMember create() {
-            return new ParserStorageMember(new JacksonParser(), new RealmIo());
-        }
-    };
+
 
     public abstract IMember create();
 }

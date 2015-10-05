@@ -34,7 +34,7 @@ public class MemberTest {
 
     @Test
     public void testProcess() throws Exception {
-        InputStream inputStream = activityRule.getActivity().getAssets().open("source_100.json");
+        InputStream inputStream = activityRule.getActivity().getAssets().open("source_10000.json");
         memberImpl.process(activityRule.getActivity(), inputStream);
 
         Log.d("test", "n: " + memberImpl.getCachedEntities(activityRule.getActivity()).get(0));
