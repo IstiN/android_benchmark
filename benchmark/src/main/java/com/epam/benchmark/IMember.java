@@ -35,9 +35,9 @@ public interface IMember {
 
     /**
      * Delegate state of activity
-     * @param activity
+     * @param context
      */
-    void onActivityCreate(Activity activity);
+    void onActivityCreate(Context context);
 
     /**
      * Delegate state of activity
@@ -105,7 +105,7 @@ public interface IMember {
                 }
 
                 @Override
-                public void onActivityCreate(Activity activity) {
+                public void onActivityCreate(Context context) {
                     //connect to activity
                     Log.d(TAG, "member_activity_created");
                 }

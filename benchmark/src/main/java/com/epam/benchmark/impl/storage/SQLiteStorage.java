@@ -1,10 +1,11 @@
 package com.epam.benchmark.impl.storage;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -32,26 +33,30 @@ public class SQLiteStorage implements IStorage {
     @Override
     public void save(Context context, List<IEntity> entities) {
         SQLiteDatabase db = sqLiteHelper.getWritableDatabase();
+        SQLiteStatement statement = db.compileStatement("INSERT INTO Entities VALUES (?,?,?,?,?,?,?,?,?,?,?,?);");
         try {
             db.beginTransaction();
             for (IEntity entity : entities) {
-                ContentValues values = new ContentValues();
-                values.put("id", entity.getId());
-                values.put("index_", entity.getIndex());
-                values.put("isActive", entity.isActive());
-                values.put("picture", entity.getPicture());
-                values.put("employeeName", entity.getEmployeeName());
-                values.put("employeeCompany", entity.getEmployeeCompany());
-                values.put("employeeEmail", entity.getEmployeeEmail());
-                values.put("employeeAbout", entity.getEmployeeAbout());
-                values.put("employeeRegisteredFormatted", entity.getEmployeeRegisteredFormatted());
-                values.put("latitude", entity.getLatitude());
-                values.put("longitude", entity.getLongitude());
-                values.put("tags", entity.getTags());
+                statement.clearBindings();
 
-                db.insert("Entities", null, values);
+                statement.bindString(1, entity.getId());
+                statement.bindLong(2, entity.getIndex());
+                statement.bindLong(3, entity.isActive() ? 1 : 0);
+                statement.bindString(4, entity.getPicture() == null ? "" : entity.getPicture());
+                statement.bindString(5, entity.getEmployeeName() == null ? "" : entity.getEmployeeName());
+                statement.bindString(6, entity.getEmployeeCompany() == null ? "" : entity.getEmployeeCompany());
+                statement.bindString(7, entity.getEmployeeEmail() == null ? "" : entity.getEmployeeEmail());
+                statement.bindString(8, entity.getEmployeeAbout() == null ? "" : entity.getEmployeeAbout());
+                statement.bindString(9, entity.getEmployeeRegisteredFormatted() == null ? "" : entity.getEmployeeRegisteredFormatted());
+                statement.bindDouble(10, entity.getLatitude());
+                statement.bindDouble(11, entity.getLongitude());
+                statement.bindString(12, entity.getTags() == null ? "" : entity.getTags());
+
+                statement.execute();
             }
             db.setTransactionSuccessful();
+        } catch (SQLiteConstraintException e) {
+            Log.e("SQLiteStorage", "Cannot insert entities", e);
         } finally {
             db.endTransaction();
             db.close();
@@ -90,12 +95,12 @@ public class SQLiteStorage implements IStorage {
     }
 
     @Override
-    public void clearResources() {
+    public void clearResources(Context context) {
         sqLiteHelper.close();
     }
 
     private List<IEntity> cursorToEntities(Cursor cursor) {
-        List<IEntity> entities = new ArrayList<>();
+        List<IEntity> entities = new ArrayList<>(cursor.getCount());
 
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {

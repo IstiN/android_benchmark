@@ -57,7 +57,7 @@ public class XcoreMember implements IMember {
     }
 
     @Override
-    public void onActivityCreate(Activity activity) {
+    public void onActivityCreate(Context context) {
 
     }
 

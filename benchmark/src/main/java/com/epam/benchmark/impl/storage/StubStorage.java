@@ -38,7 +38,7 @@ public class StubStorage implements IStorage {
     }
 
     @Override
-    public void clearResources() {
+    public void clearResources(Context context) {
 
     }
 }

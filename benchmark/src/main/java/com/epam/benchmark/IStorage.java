@@ -35,5 +35,5 @@ public interface IStorage {
     /**
      * Clear resources if needed
      */
-    void clearResources();
+    void clearResources(Context context);
 }

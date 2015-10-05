@@ -109,7 +109,7 @@ public class ORMLite implements IStorage {
     }
 
     @Override
-    public void clearResources() {
+    public void clearResources(Context context) {
 
     }
 
