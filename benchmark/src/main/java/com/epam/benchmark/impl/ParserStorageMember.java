@@ -8,6 +8,7 @@ import com.epam.benchmark.IEntity;
 import com.epam.benchmark.IMember;
 import com.epam.benchmark.IParser;
 import com.epam.benchmark.IStorage;
+import com.epam.benchmark.util.CloseableList;
 
 import java.io.InputStream;
 import java.util.List;
@@ -50,7 +51,7 @@ public class ParserStorageMember implements IMember {
 
     @Override
     public void onActivityDestroy(Activity activity) {
-
+        storage.clearResources(context);
     }
 
     @Override
@@ -61,22 +62,17 @@ public class ParserStorageMember implements IMember {
     }
 
     @Override
-    public List<IEntity> getCachedEntities(Context context) {
+    public CloseableList<IEntity> getCachedEntities(Context context) {
         return storage.getEntities(context);
     }
 
     @Override
-    public List<IEntity> getCachedEntitiesWithFilter(Context context, Boolean isActive, String employeeName, Integer startIndex, Integer endIndex) {
+    public CloseableList<IEntity> getCachedEntitiesWithFilter(Context context, Boolean isActive, String employeeName, Integer startIndex, Integer endIndex) {
         return storage.getEntities(context, isActive, employeeName, startIndex, endIndex);
     }
 
     @Override
     public void delete(Context context) {
         storage.clear(context);
-    }
-
-    @Override
-    public void finishWorkWithCachedEntities(List<IEntity> cachedEntities) {
-        storage.clearResources(context);
     }
 }

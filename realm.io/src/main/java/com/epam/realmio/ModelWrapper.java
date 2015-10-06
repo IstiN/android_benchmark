@@ -1,10 +1,7 @@
 package com.epam.realmio;
 
-import android.text.TextUtils;
-import android.util.Log;
-
 import com.epam.benchmark.IEntity;
-import com.epam.benchmark.Utils;
+import com.epam.benchmark.util.Utils;
 
 /**
  * Created by shulha_dmytro on 1.10.15.

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,10 +13,10 @@ import android.widget.TextView;
 import com.dd.realmbrowser.RealmFilesActivity;
 import com.epam.benchmark.IEntity;
 import com.epam.benchmark.IMember;
+import com.epam.benchmark.util.CloseableList;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -113,12 +114,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getCachedEntities() {
-        List<IEntity> cachedEntities = mMember.getCachedEntities(getApplication());
+        CloseableList<IEntity> cachedEntities = mMember.getCachedEntities(getApplication());
         int size = cachedEntities.size();
         for (int i = 0; i < size; i++) {
             cachedEntities.get(i).print();
         }
-        mMember.finishWorkWithCachedEntities(cachedEntities);
+        try {
+            cachedEntities.close();
+        } catch (IOException e) {
+            Log.e("MainActivity", "Error during closing resources", e);
+        }
     }
 
     public void onGetCachedEntitiesWithFilterClick(View view) {
@@ -135,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
     private void getCachedEntitiesWithFilter() {
         //filter params will be provided in future
         // 100
-        List<IEntity> cachedEntitiesWithFilter = mMember.getCachedEntitiesWithFilter(getApplication(), true, "Arlene Gibbs", 30, 40);
+        CloseableList<IEntity> cachedEntitiesWithFilter = mMember.getCachedEntitiesWithFilter(getApplication(), true, "Arlene Gibbs", 30, 40);
         // 1000
         //List<IEntity> cachedEntitiesWithFilter = mMember.getCachedEntitiesWithFilter(getApplication(), true, "Amy Adams", 700, 800);
         // 10000
@@ -144,7 +149,11 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < size; i++) {
             cachedEntitiesWithFilter.get(i).print();
         }
-        mMember.finishWorkWithCachedEntities(cachedEntitiesWithFilter);
+        try {
+            cachedEntitiesWithFilter.close();
+        } catch (IOException e) {
+            Log.e("MainActivity", "Error during closing resources", e);
+        }
     }
 
     public void onDeleteClick(View view) {

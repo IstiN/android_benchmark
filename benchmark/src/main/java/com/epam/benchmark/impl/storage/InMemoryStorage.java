@@ -2,6 +2,7 @@ package com.epam.benchmark.impl.storage;
 
 import android.content.Context;
 
+import com.epam.benchmark.util.CloseableList;
 import com.epam.benchmark.IEntity;
 import com.epam.benchmark.IStorage;
 
@@ -29,12 +30,12 @@ public class InMemoryStorage implements IStorage {
     }
 
     @Override
-    public List<IEntity> getEntities(Context context) {
-        return entities;
+    public CloseableList<IEntity> getEntities(Context context) {
+        return new CloseableList.Delegate<>(entities);
     }
 
     @Override
-    public List<IEntity> getEntities(Context context, Boolean isActive, String employeeName, Integer startIndex, Integer endIndex) {
+    public CloseableList<IEntity> getEntities(Context context, Boolean isActive, String employeeName, Integer startIndex, Integer endIndex) {
         List<IEntity> entities = new LinkedList<>();
 
         for (IEntity entity : this.entities) {
@@ -47,7 +48,7 @@ public class InMemoryStorage implements IStorage {
             }
         }
 
-        return entities;
+        return new CloseableList.Delegate<>(entities);
     }
 
     @Override

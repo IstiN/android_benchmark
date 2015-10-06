@@ -2,6 +2,8 @@ package com.epam.benchmark;
 
 import android.content.Context;
 
+import com.epam.benchmark.util.CloseableList;
+
 import java.util.List;
 
 /**
@@ -13,7 +15,7 @@ public interface IStorage {
 
     void save(Context context, List<IEntity> entities);
 
-    List<IEntity> getEntities(Context context);
+    CloseableList<IEntity> getEntities(Context context);
 
     /**
      * If param is null, param need to be ignored during query, else params need to be joined with AND operator
@@ -24,7 +26,7 @@ public interface IStorage {
      * @param endIndex filter param null/endIndex
      * @return list of entities
      */
-    List<IEntity> getEntities(Context context, Boolean isActive, String employeeName, Integer startIndex, Integer endIndex);
+    CloseableList<IEntity> getEntities(Context context, Boolean isActive, String employeeName, Integer startIndex, Integer endIndex);
 
     /**
      * Remove data from cache

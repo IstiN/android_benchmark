@@ -7,6 +7,7 @@ import android.database.Cursor;
 
 import com.epam.benchmark.IEntity;
 import com.epam.benchmark.IMember;
+import com.epam.benchmark.util.CloseableList;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -73,14 +74,14 @@ public class XcoreMember implements IMember {
     }
 
     @Override
-    public List<IEntity> getCachedEntities(Context context) {
+    public CloseableList<IEntity> getCachedEntities(Context context) {
         IDBContentProviderSupport contentProvider = XCoreHelper.get(context).getContentProvider();
         Cursor query = contentProvider.getDbSupport().query(SourceEntity.class.getName(), null, null, null, null, null, null, null);
         return new ResultWrapper(new EntityCursorModel(query));
     }
 
     @Override
-    public List<IEntity> getCachedEntitiesWithFilter(Context context, Boolean isActive, String employeeName, Integer startIndex, Integer endIndex) {
+    public CloseableList<IEntity> getCachedEntitiesWithFilter(Context context, Boolean isActive, String employeeName, Integer startIndex, Integer endIndex) {
         IDBContentProviderSupport contentProvider = XCoreHelper.get(context).getContentProvider();
         StringBuilder stringBuilder = new StringBuilder();
         List<Object> params = new ArrayList<>();
@@ -120,10 +121,5 @@ public class XcoreMember implements IMember {
     public void delete(Context context) {
         IDBContentProviderSupport contentProvider = XCoreHelper.get(context).getContentProvider();
         contentProvider.getDbSupport().delete(SourceEntity.class.getName(), null, null);
-    }
-
-    @Override
-    public void finishWorkWithCachedEntities(List<IEntity> cachedEntities) {
-        ((ResultWrapper)cachedEntities).close();
     }
 }

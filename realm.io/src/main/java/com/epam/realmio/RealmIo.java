@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import com.dd.realmbrowser.RealmBrowser;
 import com.epam.benchmark.IEntity;
 import com.epam.benchmark.IStorage;
+import com.epam.benchmark.util.CloseableList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,22 +63,17 @@ public class RealmIo implements IStorage {
     }
 
     @Override
-    public List<IEntity> getEntities(Context context) {
+    public CloseableList<IEntity> getEntities(Context context) {
         RealmResults<Model> all = getRealm(context).where(Model.class).findAll();
         return convert(all);
     }
 
-    private List<IEntity> convert(RealmResults<Model> items) {
-        List<IEntity> list = new ArrayList<>(items.size());
-        for (Model item : items) {
-            list.add(new ModelWrapper(item));
-        }
-
-        return list;
+    private CloseableList<IEntity> convert(RealmResults<Model> items) {
+        return new RealmEntityAdapter(items);
     }
 
     @Override
-    public List<IEntity> getEntities(Context context, Boolean isActive, String employeeName, Integer startIndex, Integer endIndex) {
+    public CloseableList<IEntity> getEntities(Context context, Boolean isActive, String employeeName, Integer startIndex, Integer endIndex) {
         RealmQuery<Model> query = getRealm(context).where(Model.class);
 
         if (isActive != null) {

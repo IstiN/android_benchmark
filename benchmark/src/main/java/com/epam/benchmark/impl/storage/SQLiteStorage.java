@@ -9,10 +9,11 @@ import android.database.sqlite.SQLiteStatement;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.epam.benchmark.util.CloseableList;
 import com.epam.benchmark.IEntity;
 import com.epam.benchmark.IStorage;
+import com.epam.benchmark.util.CursorList;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -64,12 +65,12 @@ public class SQLiteStorage implements IStorage {
     }
 
     @Override
-    public List<IEntity> getEntities(Context context) {
+    public CloseableList<IEntity> getEntities(Context context) {
         return cursorToEntities(sqLiteHelper.getReadableDatabase().rawQuery("select * from Entities", null));
     }
 
     @Override
-    public List<IEntity> getEntities(Context context, Boolean isActive, String employeeName, Integer startIndex, Integer endIndex) {
+    public CloseableList<IEntity> getEntities(Context context, Boolean isActive, String employeeName, Integer startIndex, Integer endIndex) {
         List<String> whereArgs = new LinkedList<>();
         if (isActive != null) {
             whereArgs.add("isActive=" + (isActive ? 1 : 0));
@@ -99,30 +100,28 @@ public class SQLiteStorage implements IStorage {
         sqLiteHelper.close();
     }
 
-    private List<IEntity> cursorToEntities(Cursor cursor) {
-        List<IEntity> entities = new ArrayList<>(cursor.getCount());
+    private CloseableList<IEntity> cursorToEntities(Cursor cursor) {
+        return new CursorList<>(new CursorToEntityConverterImpl(), cursor, false);
+    }
 
-        if (cursor.moveToFirst()) {
-            while (!cursor.isAfterLast()) {
-                entities.add(new EntityImpl(
-                    cursor.getString(0),
-                    cursor.getInt(1),
-                    cursor.getInt(2) == 1,
-                    cursor.getString(3),
-                    cursor.getString(4),
-                    cursor.getString(5),
-                    cursor.getString(6),
-                    cursor.getString(7),
-                    cursor.getString(8),
-                    cursor.getDouble(9),
-                    cursor.getDouble(10),
-                    cursor.getString(11)
-                ));
-                cursor.moveToNext();
-            }
+    private class CursorToEntityConverterImpl implements CursorList.CursorToEntityConverter<IEntity> {
+        @Override
+        public IEntity convert(Cursor cursor) {
+            return new EntityImpl(
+                cursor.getString(0),
+                cursor.getInt(1),
+                cursor.getInt(2) == 1,
+                cursor.getString(3),
+                cursor.getString(4),
+                cursor.getString(5),
+                cursor.getString(6),
+                cursor.getString(7),
+                cursor.getString(8),
+                cursor.getDouble(9),
+                cursor.getDouble(10),
+                cursor.getString(11)
+            );
         }
-        cursor.close();
-        return entities;
     }
 
     private class MySQLiteHelper extends SQLiteOpenHelper {

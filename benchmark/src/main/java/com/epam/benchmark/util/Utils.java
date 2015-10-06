@@ -1,7 +1,9 @@
-package com.epam.benchmark;
+package com.epam.benchmark.util;
 
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.epam.benchmark.IEntity;
 
 /**
  * Created by shulha_dmytro on 2.10.15.

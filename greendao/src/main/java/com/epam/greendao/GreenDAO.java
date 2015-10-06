@@ -6,9 +6,13 @@ import android.util.Log;
 
 import com.epam.benchmark.IEntity;
 import com.epam.benchmark.IStorage;
+import com.epam.benchmark.util.CloseableList;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.util.List;
 
+import de.greenrobot.dao.query.LazyList;
 import de.greenrobot.dao.query.QueryBuilder;
 
 
@@ -43,18 +47,21 @@ public class GreenDAO implements IStorage {
     }
 
     @Override
-    public List<IEntity> getEntities(Context context) {
-        return convert(dao.queryBuilder().list());
+    public CloseableList<IEntity> getEntities(Context context) {
+        return convert(dao.queryBuilder().listLazyUncached());
     }
 
-    private List<IEntity> convert(List<Model> list) {
-        List temp = list;
-        List<IEntity> result = temp;
-        return result;
+    private CloseableList<IEntity> convert(final LazyList<? extends IEntity> list) {
+        return new CloseableList.Delegate<>((List<IEntity>) list, new Closeable() {
+            @Override
+            public void close() throws IOException {
+                list.close();
+            }
+        });
     }
 
     @Override
-    public List<IEntity> getEntities(Context context, Boolean isActive, String employeeName, Integer startIndex, Integer endIndex) {
+    public CloseableList<IEntity> getEntities(Context context, Boolean isActive, String employeeName, Integer startIndex, Integer endIndex) {
         QueryBuilder<Model> builder = dao.queryBuilder();
         if (isActive != null) {
             builder.where(ModelDao.Properties.IsActive.eq(isActive));
@@ -67,7 +74,7 @@ public class GreenDAO implements IStorage {
             builder.where(ModelDao.Properties.Index.between(startIndex, endIndex));
         }
 
-        return convert(builder.list());
+        return convert(builder.listLazyUncached());
     }
 
     @Override

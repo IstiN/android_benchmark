@@ -1,11 +1,8 @@
 package com.epam.ormlite;
 
 
-import android.text.TextUtils;
-import android.util.Log;
-
 import com.epam.benchmark.IEntity;
-import com.epam.benchmark.Utils;
+import com.epam.benchmark.util.Utils;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 

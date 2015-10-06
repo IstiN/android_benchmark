@@ -7,6 +7,7 @@ import android.test.RenamingDelegatingContext;
 
 import com.epam.benchmark.IEntity;
 import com.epam.benchmark.IMember;
+import com.epam.benchmark.util.CloseableList;
 import com.squareup.burst.RepeatableSuite;
 import com.squareup.burst.annotation.Burst;
 
@@ -18,7 +19,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.InputStream;
-import java.util.List;
 
 /**
  * @author Egor Makovsky
@@ -51,13 +51,13 @@ public class MemberBenchmark {
         InputStream inputStream = context.getAssets().open("source_10000.json");
         memberImpl.process(context, inputStream);
 
-        List<IEntity> entities = memberImpl.getCachedEntities(context);
+        CloseableList<IEntity> entities = memberImpl.getCachedEntities(context);
         Assert.assertEquals(10000, entities.size());
-        print(entities);
+        printAndClose(entities);
 
         entities = memberImpl.getCachedEntitiesWithFilter(context, true, null, 30, 40);
         Assert.assertEquals(7, entities.size());
-        print(entities);
+        printAndClose(entities);
 
         memberImpl.delete(context);
 
@@ -65,11 +65,11 @@ public class MemberBenchmark {
         Assert.assertEquals(0, entities == null ? 0 : entities.size());
     }
 
-    private void print(List<IEntity> pCachedEntities) {
+    private void printAndClose(CloseableList<IEntity> pCachedEntities) throws Exception {
         int size = pCachedEntities.size();
         for (int i = 0; i < size; i++) {
             pCachedEntities.get(i).print();
         }
-        memberImpl.finishWorkWithCachedEntities(pCachedEntities);
+        pCachedEntities.close();
     }
 }
