@@ -1,13 +1,19 @@
 package com.epam.ormlite;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.epam.benchmark.IEntity;
 import com.epam.benchmark.IStorage;
+import com.epam.benchmark.util.CloseableList;
+import com.epam.benchmark.util.CursorList;
+import com.j256.ormlite.android.AndroidDatabaseResults;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
+import com.j256.ormlite.dao.CloseableIterator;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
@@ -61,24 +67,26 @@ public class ORMLite implements IStorage {
     }
 
     @Override
-    public List<IEntity> getEntities(Context context) {
+    public CloseableList<IEntity> getEntities(Context context) {
         try {
-            List<Model> models = dao.queryForAll();
-            return convert(models);
+            QueryBuilder<Model, String> queryBuilder = dao.queryBuilder();
+            CloseableIterator<Model> iterator = dao.iterator(queryBuilder.prepare());
+
+            AndroidDatabaseResults results = (AndroidDatabaseResults) iterator.getRawResults();
+
+            return convert(results.getRawCursor());
         } catch (SQLException e) {
             Log.e(TAG, e.getMessage(), e);
-            return new ArrayList<>();
+            return new CloseableList.Delegate<>(new ArrayList<IEntity>());
         }
     }
 
-    private List<IEntity> convert(List<Model> models) {
-        List temp = models;
-        List<IEntity> iEntities = temp;
-        return iEntities;
+    private CloseableList<IEntity> convert(Cursor cursor) {
+        return new CursorList<>(new CursorToEntityConverterImpl(), cursor, false);
     }
 
     @Override
-    public List<IEntity> getEntities(Context context, Boolean isActive, String employeeName, Integer startIndex, Integer endIndex) {
+    public CloseableList<IEntity> getEntities(Context context, Boolean isActive, String employeeName, Integer startIndex, Integer endIndex) {
         Where<Model, String> where = dao.queryBuilder().where();
         try {
             if (isActive != null) {
@@ -93,10 +101,14 @@ public class ORMLite implements IStorage {
                 where.between("index", startIndex, endIndex).and();
             }
 
-            return convert(where.query());
+            CloseableIterator<Model> iterator = dao.iterator(where.prepare());
+
+            AndroidDatabaseResults results = (AndroidDatabaseResults) iterator.getRawResults();
+
+            return convert(results.getRawCursor());
         } catch (SQLException e) {
             Log.e(TAG, e.getMessage(), e);
-            return new ArrayList<>();
+            return new CloseableList.Delegate<>(new ArrayList<IEntity>());
         }
     }
 
@@ -133,6 +145,26 @@ public class ORMLite implements IStorage {
         @Override
         public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
 
+        }
+    }
+
+    private class CursorToEntityConverterImpl implements CursorList.CursorToEntityConverter<IEntity> {
+        @Override
+        public IEntity convert(Cursor cursor) {
+
+            Model item = new Model();
+            item.setId(cursor.getString(cursor.getColumnIndex("id")));
+            item.setIndex(cursor.getInt(cursor.getColumnIndex("index")));
+            item.setIsActive(cursor.getInt(cursor.getColumnIndex("isActive")) == 1);
+            item.setPicture(cursor.getString(cursor.getColumnIndex("picture")));
+            item.setName(cursor.getString(cursor.getColumnIndex("name")));
+            item.setCompany(cursor.getString(cursor.getColumnIndex("company")));
+            item.setEmail(cursor.getString(cursor.getColumnIndex("email")));
+            item.setAbout(cursor.getString(cursor.getColumnIndex("about")));
+            item.setRegistered(cursor.getString(cursor.getColumnIndex("registered")));
+            item.setLatitude(cursor.getDouble(cursor.getColumnIndex("latitude")));
+            item.setLongitude(cursor.getDouble(cursor.getColumnIndex("longitude")));
+            return item;
         }
     }
 }

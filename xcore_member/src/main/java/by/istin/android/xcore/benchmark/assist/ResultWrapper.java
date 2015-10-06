@@ -3,6 +3,7 @@ package by.istin.android.xcore.benchmark.assist;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 
+import com.epam.benchmark.util.CloseableList;
 import com.epam.benchmark.IEntity;
 
 import java.util.Collection;
@@ -15,7 +16,7 @@ import by.istin.android.xcore.utils.CursorUtils;
 /**
  * Created by uladzimir_klyshevich on 7/18/15.
  */
-public class ResultWrapper implements List<IEntity> {
+public class ResultWrapper implements CloseableList<IEntity> {
 
     private EntityCursorModel mCursorModel;
 
@@ -23,6 +24,7 @@ public class ResultWrapper implements List<IEntity> {
         mCursorModel = cursorModel;
     }
 
+    @Override
     public void close() {
         CursorUtils.close(mCursorModel);
         mCursorModel = null;

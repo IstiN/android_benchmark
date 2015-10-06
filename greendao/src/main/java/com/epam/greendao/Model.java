@@ -5,11 +5,8 @@ package com.epam.greendao;
 // KEEP INCLUDES - put your custom includes here
 // KEEP INCLUDES END
 
-import android.text.TextUtils;
-import android.util.Log;
-
 import com.epam.benchmark.IEntity;
-import com.epam.benchmark.Utils;
+import com.epam.benchmark.util.Utils;
 
 /**
  * Entity mapped to table "MODEL".
