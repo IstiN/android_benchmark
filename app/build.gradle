@@ -34,7 +34,7 @@ dependencies {
 
     debugCompile 'im.dino:dbinspector:3.1.0@aar'
 
-    androidTestCompile "com.android.support.test:runner:0.4"
-    androidTestCompile "com.android.support.test:rules:0.4"
+    androidTestCompile "com.android.support.test:runner:0.4.1"
+    androidTestCompile "com.android.support.test:rules:0.4.1"
     androidTestCompile 'com.squareup.burst:burst-junit4:1.1.0'
 }

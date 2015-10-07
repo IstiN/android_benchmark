@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.test.RenamingDelegatingContext;
 
+import com.epam.android.benchmark.TestUtils;
 import com.epam.benchmark.IEntity;
 import com.epam.benchmark.IStorage;
 import com.squareup.burst.BurstJUnit4;
@@ -103,6 +104,6 @@ public class StorageTest {
     }
 
     private List<IEntity> newTestList() {
-        return StorageTestUtils.newTestList();
+        return TestUtils.newTestList();
     }
 }
