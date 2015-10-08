@@ -19,7 +19,7 @@ android {
 
     defaultConfig {
         testApplicationId "com.epam.android.benchmark.test"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.epam.android.benchmark.CustomRunner"
     }
 }
 
