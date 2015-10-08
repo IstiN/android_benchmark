@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * @author Egor Makovsky
@@ -62,5 +63,9 @@ public class TestUtils {
         model.setLatitude(0d);
         model.setLongitude(0d);
         return model;
+    }
+
+    public static String formatTime(long time) {
+        return String.format(Locale.ENGLISH, "%.3f", (System.currentTimeMillis() - time) / 1000.);
     }
 }

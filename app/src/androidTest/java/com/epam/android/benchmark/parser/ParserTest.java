@@ -7,7 +7,6 @@ import android.test.RenamingDelegatingContext;
 import com.epam.android.benchmark.TestUtils;
 import com.epam.benchmark.IEntity;
 import com.epam.benchmark.IParser;
-import com.epam.benchmark.impl.EmptyParserListenerImpl;
 import com.squareup.burst.BurstJUnit4;
 import com.squareup.burst.annotation.Burst;
 
@@ -41,7 +40,7 @@ public class ParserTest {
     public void testParserListener() throws Exception {
         final ListenerDataHolder listenerDataHolder = new ListenerDataHolder();
 
-        parserImpl.parse(TestUtils.getJsonInputStream(context, 100000), new IParser.Listener() {
+        parserImpl.parse(TestUtils.getJsonInputStream(context, 1000), new IParser.Listener() {
             @Override
             public void onEntityRead(IEntity entity) {
                 listenerDataHolder.count++;
@@ -53,7 +52,7 @@ public class ParserTest {
             }
         });
 
-        Assert.assertEquals(100000, listenerDataHolder.count);
+        Assert.assertEquals(1000, listenerDataHolder.count);
         Assert.assertTrue(listenerDataHolder.finished);
     }
 
@@ -74,11 +73,6 @@ public class ParserTest {
     public void testCount10000() throws Exception {
         List<IEntity> entities = parserImpl.parse(TestUtils.getJsonInputStream(context, 10000));
         Assert.assertEquals(10000, entities.size());
-    }
-
-    @Test
-    public void testCount50000() throws Exception {
-        parserImpl.parse(TestUtils.getJsonInputStream(context, 50000), new EmptyParserListenerImpl());
     }
 
     @Test
