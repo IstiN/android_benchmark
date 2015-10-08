@@ -19,7 +19,8 @@ android {
 
     defaultConfig {
         testApplicationId "com.epam.android.benchmark.test"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.epam.android.benchmark.runner.RunnerWithListener"
+        testInstrumentationRunnerArguments listener: "com.epam.android.benchmark.runner.BenchmarkReporter"
     }
 }
 
@@ -37,4 +38,8 @@ dependencies {
     androidTestCompile "com.android.support.test:runner:0.4.1"
     androidTestCompile "com.android.support.test:rules:0.4.1"
     androidTestCompile 'com.squareup.burst:burst-junit4:1.1.0'
+
+    //todo: need to calculate the median of repeatable test executions. Replace it with some inner implementation
+    androidTestCompile 'org.apache.commons:commons-math3:3.5'
+
 }
