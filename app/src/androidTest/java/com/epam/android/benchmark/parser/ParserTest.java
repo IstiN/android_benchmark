@@ -7,6 +7,7 @@ import android.test.RenamingDelegatingContext;
 import com.epam.android.benchmark.TestUtils;
 import com.epam.benchmark.IEntity;
 import com.epam.benchmark.IParser;
+import com.epam.benchmark.impl.EmptyParserListenerImpl;
 import com.squareup.burst.BurstJUnit4;
 import com.squareup.burst.annotation.Burst;
 
@@ -37,6 +38,26 @@ public class ParserTest {
     }
 
     @Test
+    public void testParserListener() throws Exception {
+        final ListenerDataHolder listenerDataHolder = new ListenerDataHolder();
+
+        parserImpl.parse(TestUtils.getJsonInputStream(context, 100000), new IParser.Listener() {
+            @Override
+            public void onEntityRead(IEntity entity) {
+                listenerDataHolder.count++;
+            }
+
+            @Override
+            public void onReadFinished() {
+                listenerDataHolder.finished = true;
+            }
+        });
+
+        Assert.assertEquals(100000, listenerDataHolder.count);
+        Assert.assertTrue(listenerDataHolder.finished);
+    }
+
+    @Test
     public void testCount100() throws Exception {
         List<IEntity> entities = parserImpl.parse(TestUtils.getJsonInputStream(context, 100));
 
@@ -57,14 +78,7 @@ public class ParserTest {
 
     @Test
     public void testCount50000() throws Exception {
-        List<IEntity> entities = parserImpl.parse(TestUtils.getJsonInputStream(context, 50000));
-        Assert.assertEquals(50000, entities.size());
-    }
-
-    @Test
-    public void testCount100000() throws Exception {
-        List<IEntity> entities = parserImpl.parse(TestUtils.getJsonInputStream(context, 100000));
-        Assert.assertEquals(100000, entities.size());
+        parserImpl.parse(TestUtils.getJsonInputStream(context, 50000), new EmptyParserListenerImpl());
     }
 
     @Test
@@ -74,5 +88,10 @@ public class ParserTest {
         for (int i = 0; i < entities.size(); i++) {
             Assert.assertEquals(i, entities.get(i).getIndex().intValue());
         }
+    }
+
+    private class ListenerDataHolder {
+        int count;
+        boolean finished;
     }
 }

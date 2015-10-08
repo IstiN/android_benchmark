@@ -2,11 +2,10 @@ package com.epam.benchmark.impl.storage;
 
 import android.content.Context;
 
-import com.epam.benchmark.util.CloseableList;
 import com.epam.benchmark.IEntity;
 import com.epam.benchmark.IStorage;
+import com.epam.benchmark.util.CloseableList;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,12 +20,12 @@ public class InMemoryStorage implements IStorage {
 
     @Override
     public void init(Context context) {
-        entities = Collections.emptyList();
+        entities = new LinkedList<>();
     }
 
     @Override
     public void save(Context context, List<IEntity> entities) {
-        this.entities = entities;
+        this.entities.addAll(entities);
     }
 
     @Override

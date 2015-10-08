@@ -45,19 +45,32 @@ public class MemberBenchmark {
     }
 
     @Test
-    public void testProcess() throws Exception {
+    public void testProcessSmall() throws Exception {
+        testProcess(1000, true);
+    }
+
+    @Test
+    public void testProcessLarge() throws Exception {
+        testProcess(50000, false);
+    }
+
+    private void testProcess(int count, boolean isSmall) throws Exception {
         memberImpl.delete(context);
 
-        InputStream inputStream = TestUtils.getJsonInputStream(context, 50000);
-        memberImpl.process(context, inputStream);
+        InputStream inputStream = TestUtils.getJsonInputStream(context, count);
 
+        if (isSmall) {
+            memberImpl.processSmallData(context, inputStream);
+        } else {
+            memberImpl.processLargeData(context, inputStream);
+        }
         CloseableList<IEntity> entities = memberImpl.getCachedEntities(context);
-//        Assert.assertEquals(50000, entities.size());
-        printAndClose(entities);
+        Assert.assertEquals(count, entities.size());
+        getAndClose(entities);
 
         entities = memberImpl.getCachedEntitiesWithFilter(context, true, null, 30, 40);
 //        Assert.assertEquals(7, entities.size());
-        printAndClose(entities);
+        getAndClose(entities);
 
         memberImpl.delete(context);
 
@@ -65,11 +78,11 @@ public class MemberBenchmark {
         Assert.assertEquals(0, entities == null ? 0 : entities.size());
     }
 
-    private void printAndClose(CloseableList<IEntity> pCachedEntities) throws Exception {
-        int size = pCachedEntities.size();
+    private void getAndClose(CloseableList<IEntity> entities) throws Exception {
+        int size = entities.size();
         for (int i = 0; i < size; i++) {
-            pCachedEntities.get(i).print();
+            entities.get(i);
         }
-        pCachedEntities.close();
+        entities.close();
     }
 }
