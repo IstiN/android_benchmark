@@ -57,7 +57,9 @@ public interface IMember {
      * @param context     context to make request to db, cache or something else
      * @param inputStream stream of source file
      */
-    void process(Context context, InputStream inputStream) throws Exception;
+    void processLargeData(Context context, InputStream inputStream) throws Exception;
+
+    void processSmallData(Context context, InputStream inputStream) throws Exception;
 
     CloseableList<IEntity> getCachedEntities(Context context);
 
@@ -121,9 +123,21 @@ public interface IMember {
                 }
 
                 @Override
-                public void process(Context context, InputStream inputStream) {
+                public void processLargeData(Context context, InputStream inputStream) {
                     //download and cache data
-                    Log.d(TAG, "member_process_data");
+                    Log.d(TAG, "processLargeData");
+                    try {
+                        //you need close stream after processing
+                        inputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void processSmallData(Context context, InputStream inputStream) throws Exception {
+                    //download and cache data
+                    Log.d(TAG, "processSmallData");
                     try {
                         //you need close stream after processing
                         inputStream.close();

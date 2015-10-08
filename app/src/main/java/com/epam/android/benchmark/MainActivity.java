@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
     private void process() {
         try {
             InputStream inputStream = getAssets().open(SOURCE);
-            mMember.process(getApplication(), inputStream);
+            mMember.processSmallData(getApplication(), inputStream);
         } catch (IOException e) {
             throw new IllegalArgumentException("check asset name", e);
         } catch (Exception e) {

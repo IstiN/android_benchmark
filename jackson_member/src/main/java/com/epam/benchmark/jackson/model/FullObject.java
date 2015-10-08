@@ -2,7 +2,7 @@ package com.epam.benchmark.jackson.model;
 
 import com.epam.benchmark.IEntity;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -13,11 +13,7 @@ public class FullObject {
     private ResponseItem[] response = new ResponseItem[0];
 
     public List<IEntity> getResponseItems() {
-        ArrayList<IEntity> iEntities = new ArrayList<>();
-        for (ResponseItem item : response) {
-            iEntities.add(item);
-        }
-        return iEntities;
+        return (List<IEntity>) (List<?>) Arrays.asList(response);
     }
 
     public int getStatus() {

@@ -96,11 +96,15 @@ public class StorageTest {
 
     @Test
     public void testSaveTwice() throws Exception {
-        storageImpl.save(context, newTestList());
+        if (storage != Storage.IN_MEMORY) {
+            storageImpl.save(context, newTestList());
 
-        storageImpl.save(context, newTestList());
+            storageImpl.save(context, newTestList());
 
-        Assert.assertEquals(5, storageImpl.getEntities(context).size());
+            Assert.assertEquals(5, storageImpl.getEntities(context).size());
+        } else {
+            System.out.println("InMemory implementation doesnt support save and replace operation!");
+        }
     }
 
     private List<IEntity> newTestList() {

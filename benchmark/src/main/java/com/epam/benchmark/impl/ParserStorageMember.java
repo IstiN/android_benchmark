@@ -55,10 +55,15 @@ public class ParserStorageMember implements IMember {
     }
 
     @Override
-    public void process(Context context, InputStream inputStream) throws Exception {
+    public void processSmallData(Context context, InputStream inputStream) throws Exception {
         List<IEntity> entities = parser.parse(inputStream);
 
         storage.save(context, entities);
+    }
+
+    @Override
+    public void processLargeData(Context context, InputStream inputStream) throws Exception {
+        parser.parse(inputStream, new LargeDataSaver(context, storage));
     }
 
     @Override
@@ -75,4 +80,5 @@ public class ParserStorageMember implements IMember {
     public void delete(Context context) {
         storage.clear(context);
     }
+
 }

@@ -68,7 +68,12 @@ public class XcoreMember implements IMember {
     }
 
     @Override
-    public void process(Context context, InputStream inputStream) throws Exception {
+    public void processSmallData(Context context, InputStream inputStream) throws Exception {
+        processLargeData(context, inputStream);
+    }
+
+    @Override
+    public void processLargeData(Context context, InputStream inputStream) throws Exception {
         IProcessor sourceProcessor = AppUtils.get(context, SourceProcessor.APP_SERVICE_KEY);
         sourceProcessor.execute(null, null, inputStream);
     }
