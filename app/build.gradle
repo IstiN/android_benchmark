@@ -14,13 +14,33 @@ android {
     packagingOptions {
         exclude 'META-INF/ASL2.0'
         exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
     }
 
     defaultConfig {
         testApplicationId "com.epam.android.benchmark.test"
         testInstrumentationRunner "com.epam.android.benchmark.runner.RunnerWithListener"
         testInstrumentationRunnerArguments listener: "com.epam.android.benchmark.runner.BenchmarkReporter"
+    }
+
+    buildTypes {
+        // assets will be removed during building to increase test launch speed.
+        // JSONs will be searched at sdcard/benchmark folder
+        noAssetsDebug.initWith(debug)
+    }
+}
+
+android.applicationVariants.all { variant ->
+    if (variant.name.contains('noAssetsDebug')) {
+        variant.mergeAssets.doLast {
+            def dirName = "${buildDir}/intermediates/assets/${variant.name}"
+            file(dirName).list().each {
+                // clear assets/noAssetsDebug folder
+                f -> delete "${dirName}/${f}"
+            }
+        }
     }
 }
 
@@ -35,11 +55,11 @@ dependencies {
 
     debugCompile 'im.dino:dbinspector:3.1.0@aar'
 
-    androidTestCompile "com.android.support.test:runner:0.4.1"
-    androidTestCompile "com.android.support.test:rules:0.4.1"
-    androidTestCompile 'com.squareup.burst:burst-junit4:1.1.0'
+    // cannot use androidTestCompile here. noAssetsDebug build type will not find these dependencies. It seems like an Android studio bug
+    compile "com.android.support.test:runner:0.4.1"
+    compile "com.android.support.test:rules:0.4.1"
+    compile 'com.squareup.burst:burst-junit4:1.1.0'
 
     //todo: need to calculate the median of repeatable test executions. Replace it with some inner implementation
-    androidTestCompile 'org.apache.commons:commons-math3:3.5'
-
+    compile 'org.apache.commons:commons-math3:3.5'
 }
