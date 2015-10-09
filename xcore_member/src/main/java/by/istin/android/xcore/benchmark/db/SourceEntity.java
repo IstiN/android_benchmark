@@ -9,23 +9,22 @@ import by.istin.android.xcore.annotations.Config;
 import by.istin.android.xcore.annotations.db;
 import by.istin.android.xcore.annotations.dbBoolean;
 import by.istin.android.xcore.annotations.dbDouble;
-import by.istin.android.xcore.annotations.dbEntity;
 import by.istin.android.xcore.annotations.dbInteger;
+import by.istin.android.xcore.annotations.dbLong;
 import by.istin.android.xcore.annotations.dbString;
 import by.istin.android.xcore.benchmark.transformer.DateTransformer;
 import by.istin.android.xcore.benchmark.transformer.TagsTransformer;
 import by.istin.android.xcore.db.IDBConnection;
-import by.istin.android.xcore.db.entity.IGenerateID;
+import by.istin.android.xcore.db.entity.IBeforeArrayUpdate;
 import by.istin.android.xcore.db.impl.DBHelper;
 import by.istin.android.xcore.source.DataSourceRequest;
-import by.istin.android.xcore.utils.HashUtils;
 
 /**
  * Created by uladzimir_klyshevich on 7/18/15.
  */
-public class SourceEntity implements BaseColumns, IGenerateID {
+public class SourceEntity implements BaseColumns, IBeforeArrayUpdate {
 
-    @dbString
+    @dbLong
     public static final String ID = _ID;
 
     @dbString
@@ -77,7 +76,8 @@ public class SourceEntity implements BaseColumns, IGenerateID {
     public static final String TAGS = "ta";
 
     @Override
-    public long generateId(DBHelper dbHelper, IDBConnection db, DataSourceRequest dataSourceRequest, ContentValues contentValues) {
-        return HashUtils.generateId(contentValues, ID_AS_STRING);
+    public void onBeforeListUpdate(DBHelper dbHelper, IDBConnection db, DataSourceRequest dataSourceRequest, int position, ContentValues contentValues) {
+        contentValues.put(ID, position);
     }
+
 }
