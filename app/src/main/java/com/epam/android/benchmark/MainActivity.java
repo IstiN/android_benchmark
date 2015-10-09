@@ -20,7 +20,6 @@ import java.io.InputStream;
 
 
 public class MainActivity extends AppCompatActivity {
-    public static final String SOURCE_10000 = "source_10000.json";
     public static final String SOURCE_1000 = "source_1000.json";
     public static final String SOURCE_100 = "source_100.json";
 
@@ -94,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
     private void process() {
         try {
             InputStream inputStream = getAssets().open(SOURCE);
-            mMember.process(getApplication(), inputStream);
+            mMember.processSmallData(getApplication(), inputStream);
         } catch (IOException e) {
             throw new IllegalArgumentException("check asset name", e);
         } catch (Exception e) {

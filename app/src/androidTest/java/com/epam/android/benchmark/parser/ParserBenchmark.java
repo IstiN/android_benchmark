@@ -4,7 +4,9 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.test.RenamingDelegatingContext;
 
+import com.epam.android.benchmark.TestUtils;
 import com.epam.benchmark.IParser;
+import com.epam.benchmark.impl.EmptyParserListenerImpl;
 import com.squareup.burst.RepeatableSuite;
 import com.squareup.burst.annotation.Burst;
 
@@ -37,16 +39,26 @@ public class ParserBenchmark {
 
     @Test
     public void testParse100() throws Exception {
-        parserImpl.parse(context.getAssets().open("source_100.json"));
+        parserImpl.parse(TestUtils.getJsonInputStream(context, 100));
     }
 
     @Test
     public void testParse1000() throws Exception {
-        parserImpl.parse(context.getAssets().open("source_1000.json"));
+        parserImpl.parse(TestUtils.getJsonInputStream(context, 1000));
     }
 
     @Test
-    public void testParseMany() throws Exception {
-        parserImpl.parse(context.getAssets().open("source_10000.json"));
+    public void testParse10000() throws Exception {
+        parserImpl.parse(TestUtils.getJsonInputStream(context, 10000));
+    }
+
+    @Test
+    public void testParseLittleMemory50000() throws Exception {
+        parserImpl.parse(TestUtils.getJsonInputStream(context, 50000), new EmptyParserListenerImpl());
+    }
+
+    @Test
+    public void testParseLittleMemory100000() throws Exception {
+        parserImpl.parse(TestUtils.getJsonInputStream(context, 100000), new EmptyParserListenerImpl());
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.test.RenamingDelegatingContext;
 
+import com.epam.android.benchmark.TestUtils;
 import com.epam.benchmark.IEntity;
 import com.epam.benchmark.IStorage;
 import com.squareup.burst.BurstJUnit4;
@@ -95,14 +96,18 @@ public class StorageTest {
 
     @Test
     public void testSaveTwice() throws Exception {
-        storageImpl.save(context, newTestList());
+        if (storage != Storage.IN_MEMORY) {
+            storageImpl.save(context, newTestList());
 
-        storageImpl.save(context, newTestList());
+            storageImpl.save(context, newTestList());
 
-        Assert.assertEquals(5, storageImpl.getEntities(context).size());
+            Assert.assertEquals(5, storageImpl.getEntities(context).size());
+        } else {
+            System.out.println("InMemory implementation doesnt support save and replace operation!");
+        }
     }
 
     private List<IEntity> newTestList() {
-        return StorageTestUtils.newTestList();
+        return TestUtils.newTestList();
     }
 }

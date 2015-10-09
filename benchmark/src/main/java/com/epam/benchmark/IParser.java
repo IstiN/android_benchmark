@@ -8,7 +8,15 @@ import java.util.List;
  */
 public interface IParser {
 
+    interface Listener {
+        void onEntityRead(IEntity entity);
+
+        void onReadFinished();
+    }
+
     void init();
 
     List<IEntity> parse(InputStream inputStream) throws Exception;
+
+    void parse(InputStream inputStream, Listener listener) throws Exception;
 }
