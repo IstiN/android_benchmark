@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.epam.android.benchmark" >
 
+    <!-- To save custom reports and read large JSON data files-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
     <application
         android:name=".BenchmarkApplication"
         android:allowBackup="true"

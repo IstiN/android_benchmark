@@ -2,6 +2,7 @@ package com.epam.android.benchmark;
 
 import android.content.Context;
 import android.os.Environment;
+import android.util.Log;
 
 import com.epam.benchmark.IEntity;
 import com.epam.greendao.Model;
@@ -12,8 +13,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+
 
 /**
  * @author Egor Makovsky
@@ -25,7 +28,12 @@ public class TestUtils {
 
     public static InputStream getJsonInputStream(Context context, int count) throws IOException {
         String fileName = String.format("source_%s.json", count);
-        return count <= 1000 ? getJsonInputStreamFromAssets(context, fileName) : getJsonInputStreamFromFile(fileName);
+        if (Arrays.asList(context.getAssets().list("")).contains(fileName)) {
+            return getJsonInputStreamFromAssets(context, fileName);
+        } else {
+            Log.d("TestUtils", "Asset file not found. Try sdcard. File name: " + fileName);
+            return getJsonInputStreamFromFile(fileName);
+        }
     }
 
     public static InputStream getJsonInputStreamFromAssets(Context context, String fileName) throws IOException {
