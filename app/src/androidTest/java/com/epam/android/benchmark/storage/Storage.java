@@ -7,6 +7,8 @@ import com.epam.greendao.GreenDAO;
 import com.epam.ormlite.ORMLite;
 import com.epam.realmio.RealmIo;
 
+import by.istin.android.xcore.benchmark.XcoreStorage;
+
 /**
  * @author Egor Makovsky
  */
@@ -43,6 +45,12 @@ public enum Storage {
         @Override
         public IStorage create() {
             return new GreenDAO();
+        }
+    },
+    XCORE {
+        @Override
+        public IStorage create() {
+            return new XcoreStorage();
         }
     };
 

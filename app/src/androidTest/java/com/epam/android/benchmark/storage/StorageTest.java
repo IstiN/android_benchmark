@@ -34,7 +34,7 @@ public class StorageTest {
         context = new RenamingDelegatingContext(InstrumentationRegistry.getInstrumentation().getTargetContext(), "test_");
 
         storageImpl = storage.create();
-        storageImpl.init(context);
+        storageImpl.init(context.getApplicationContext());
     }
 
     @After
