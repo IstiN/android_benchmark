@@ -28,7 +28,7 @@ public class XcoreStorage implements IStorage {
     @Override
     public void init(Context context) {
         mXcoreMember = new XcoreMember();
-        mXcoreMember.onApplicationCreate((Application)context);
+        mXcoreMember.onApplicationCreate((Application)context.getApplicationContext());
     }
 
     @Override

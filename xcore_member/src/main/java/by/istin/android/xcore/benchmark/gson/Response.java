@@ -11,4 +11,7 @@ public class Response {
 
     private List<ContentValues> response;
 
+    public List<ContentValues> getResponse() {
+        return response;
+    }
 }

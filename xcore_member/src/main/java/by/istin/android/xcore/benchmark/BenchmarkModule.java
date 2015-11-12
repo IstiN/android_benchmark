@@ -4,7 +4,6 @@ import android.content.Context;
 
 import by.istin.android.xcore.XCoreHelper;
 import by.istin.android.xcore.benchmark.db.SourceEntity;
-import by.istin.android.xcore.benchmark.processor.Source2Processor;
 import by.istin.android.xcore.benchmark.processor.SourceProcessor;
 import by.istin.android.xcore.provider.IDBContentProviderSupport;
 

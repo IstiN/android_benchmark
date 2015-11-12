@@ -45,8 +45,18 @@ public class MemberBenchmark {
     }
 
     @Test
-    public void testProcessSmall() throws Exception {
+    public void testProcess100() throws Exception {
+        testProcess(100, true);
+    }
+
+    @Test
+    public void testProcess1000() throws Exception {
         testProcess(1000, true);
+    }
+
+    @Test
+    public void testProcess10000() throws Exception {
+        testProcess(10000, true);
     }
 
     @Test

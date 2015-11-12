@@ -1,7 +1,6 @@
 package com.epam.android.benchmark.storage;
 
 import com.epam.benchmark.IStorage;
-import com.epam.benchmark.impl.storage.InMemoryStorage;
 import com.epam.benchmark.impl.storage.SQLiteStorage;
 import com.epam.greendao.GreenDAO;
 import com.epam.ormlite.ORMLite;
@@ -13,12 +12,15 @@ import by.istin.android.xcore.benchmark.XcoreStorage;
  * @author Egor Makovsky
  */
 public enum Storage {
+
+    /*
     IN_MEMORY {
         @Override
         public IStorage create() {
             return new InMemoryStorage();
         }
     },
+    */
 
     SIMPLE {
         @Override
